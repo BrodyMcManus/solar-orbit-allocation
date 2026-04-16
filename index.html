@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Allocating Solar Orbits &mdash; A Working Document</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --bg-raised: #141621;
+      --panel: #1a1d2a;
+      --text: #e9e4d4;
+      --text-dim: #a09c8f;
+      --text-faint: #6b6757;
+      --rule: #2a2d3a;
+      --accent: #f2b143;
+      --accent-dim: #8a6526;
+      --earth: #6aa8d8;
+      --orbit: #f4d599;
+      --serif: "Fraunces", "EB Garamond", Georgia, serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--serif);
+      font-optical-sizing: auto;
+      font-weight: 350;
+      font-size: 18px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse at top, #15172280 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 120%, #2a1e0a40 0%, transparent 50%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    /* ---------- Top masthead ---------- */
+    header.masthead {
+      border-bottom: 1px solid var(--rule);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    header.masthead .lhs { color: var(--accent); }
+
+    /* ---------- Layout ---------- */
+    main {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    /* Title block */
+    .titleblock {
+      margin-bottom: 4rem;
+    }
+    .titleblock .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    h1 {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-variation-settings: "opsz" 144, "SOFT" 30;
+      font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin: 0 0 1rem;
+    }
+    h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+    }
+    .titleblock .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      max-width: 60ch;
+      line-height: 1.5;
+    }
+    .titleblock .meta {
+      margin-top: 2rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Section heads */
+    section { margin-bottom: 5rem; }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-top: 1px solid var(--rule);
+      padding-top: 2rem;
+    }
+    .section-head .num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-top: 0.4rem;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-variation-settings: "opsz" 72;
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      line-height: 1.15;
+      letter-spacing: -0.005em;
+      margin: 0;
+      flex: 1;
+    }
+
+    h3 {
+      font-family: var(--serif);
+      font-weight: 450;
+      font-variation-settings: "opsz" 24;
+      font-size: 1.15rem;
+      margin: 2rem 0 0.5rem;
+    }
+
+    p { margin: 0 0 1.2rem; }
+
+    p.lede::first-letter {
+      font-family: var(--serif);
+      font-variation-settings: "opsz" 144;
+      font-weight: 300;
+      font-size: 3.4rem;
+      float: left;
+      line-height: 0.85;
+      padding: 0.1em 0.08em 0 0;
+      color: var(--accent);
+    }
+
+    em { font-style: italic; color: var(--text); }
+    strong { font-weight: 500; color: var(--text); }
+
+    /* Summary card */
+    .summary-card {
+      background: var(--panel);
+      border-left: 2px solid var(--accent);
+      padding: 1.5rem 1.8rem;
+      margin-bottom: 4rem;
+      font-size: 0.95rem;
+    }
+    .summary-card .summary-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .summary-card .placeholder-text {
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    /* Placeholder sections */
+    .placeholder {
+      opacity: 0.55;
+    }
+    .placeholder .placeholder-body {
+      border: 1px dashed var(--rule);
+      padding: 1.5rem;
+      color: var(--text-dim);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    /* ---------- Visualization ---------- */
+    .viz-wrap {
+      margin: 2rem -1rem 2rem;  /* slight bleed on smaller screens */
+      background: #05060a;
+      border: 1px solid var(--rule);
+      overflow: hidden;
+    }
+    @media (min-width: 860px) {
+      .viz-wrap {
+        margin-left: calc(-1 * (100vw - 780px) / 2 + 2rem);
+        margin-right: calc(-1 * (100vw - 780px) / 2 + 2rem);
+        max-width: none;
+      }
+    }
+
+    .viz-canvas-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: radial-gradient(ellipse at center, #0d1018 0%, #05060a 80%);
+    }
+    #viz-canvas { display: block; width: 100%; height: 100%; }
+
+    .viz-legend {
+      position: absolute;
+      top: 0.8rem;
+      left: 0.8rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      line-height: 1.6;
+      background: rgba(5, 6, 10, 0.6);
+      backdrop-filter: blur(8px);
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--rule);
+      pointer-events: none;
+    }
+    .viz-legend .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .viz-legend .swatch {
+      width: 10px; height: 10px; border-radius: 50%;
+      display: inline-block;
+    }
+    .viz-legend .swatch.line { border-radius: 0; height: 2px; width: 14px; }
+
+    .viz-hint {
+      position: absolute;
+      bottom: 0.8rem;
+      right: 0.8rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+
+    /* Controls */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border-top: 1px solid var(--rule);
+    }
+    .control {
+      background: var(--bg-raised);
+      padding: 1rem 1.2rem;
+      position: relative;
+    }
+    .control.active {
+      background: #1d1a12;
+    }
+    .control-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+    .control-name {
+      font-family: var(--serif);
+      font-weight: 450;
+      font-size: 0.95rem;
+    }
+    .control-symbol {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--accent);
+      font-size: 1.05rem;
+      margin-right: 0.4rem;
+    }
+    .control-value {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+    .control-desc {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+      margin-bottom: 0.7rem;
+      font-family: var(--serif);
+      font-style: italic;
+    }
+    .control-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    input[type="range"] {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      height: 20px;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 2px;
+      background: var(--rule);
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px; height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      margin-top: -5px;
+      cursor: pointer;
+    }
+    input[type="range"]::-moz-range-track {
+      height: 2px;
+      background: var(--rule);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 12px; height: 12px;
+      background: var(--accent);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    button.sweep-btn {
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.55rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    button.sweep-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    button.sweep-btn.active {
+      border-color: var(--accent);
+      color: var(--bg);
+      background: var(--accent);
+    }
+
+    .reset-row {
+      padding: 0.8rem 1.2rem;
+      background: var(--bg-raised);
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-faint);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    button.reset-btn {
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+    }
+    button.reset-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="masthead">
+    <div class="lhs">Working Draft &middot; v0.1</div>
+    <div>Brody &middot; 2026</div>
+  </header>
+
+  <main>
+    <div class="titleblock">
+      <div class="eyebrow">Early Research &middot; Solar Infrastructure Governance</div>
+      <h1>Allocating orbits around the Sun, <em>and why it matters.</em></h1>
+      <p class="subtitle">
+        A working document on how governance rules for large-scale space infrastructure
+        &mdash; Dyson-swarm-type scenarios &mdash; might shape the long-run distribution
+        of power and resources.
+      </p>
+      <div class="meta">
+        <span>&sect; 5 sections</span>
+        <span>&sect; ~15 min read</span>
+        <span>&sect; feedback welcome</span>
+      </div>
+    </div>
+
+    <!-- SUMMARY / KEY TAKEAWAYS -->
+    <div class="summary-card">
+      <div class="summary-label">Summary &middot; In One Minute</div>
+      <p class="placeholder-text">
+        [To be written. The plan: a short summary of the document's main claims
+        &mdash; why orbit allocation is a governance question, what allocation
+        schemes are possible, which factors they trade off against, and what a
+        good rule set should try to preserve.]
+      </p>
+    </div>
+
+    <!-- SECTION 1: WHY -->
+    <section id="why">
+      <div class="section-head">
+        <div class="num">&sect; 01</div>
+        <h2>Why does it matter how we hand out orbits?</h2>
+      </div>
+
+      <p class="lede">
+        Imagine building infrastructure around the Sun &mdash; not the occasional
+        satellite, but millions or billions of them, enough to catch a meaningful
+        fraction of the Sun's light. This is the rough shape of a <em>Dyson
+        swarm</em>, and while it sounds like science fiction, the engineering
+        principles aren't fundamentally exotic. If humanity ever reaches a scale
+        where this becomes feasible, the question of <em>who builds where</em>
+        around the Sun becomes one of the most consequential resource allocations
+        in history.
+      </p>
+
+      <p>
+        That allocation isn't just a matter of fairness in the ordinary sense.
+        The orbits near Earth's plane and close to 1 AU are the most commercially
+        attractive &mdash; easier to reach, easier to beam energy from, and,
+        importantly, <em>most visible from Earth</em>. An actor who captured
+        enough of these orbits could dim the Sun from our perspective at a scale
+        wildly disproportionate to the fraction of total solar output they actually
+        collect. Concentration in particular orbital regions creates strategic
+        leverage that evenly distributed concentration does not.
+      </p>
+
+      <p>
+        More broadly, the rules we set for allocation don't only decide a
+        distribution. They shape <em>which kinds of actors</em> &mdash; states,
+        corporations, consortia, something new &mdash; are favored to emerge and
+        succeed over time. Early rules in novel domains tend to stick; initial
+        conditions persist. What looks like a technical question about orbital
+        mechanics is, underneath, a question about what kind of future the
+        emerging space economy is structured to produce.
+      </p>
+
+      <p>
+        This document walks through how orbits are actually described, what
+        allocation schemes are available, how different schemes serve (or don't
+        serve) different actors' interests, and what a governance framework
+        built around three commitments &mdash; <strong>resistance to
+        concentration of power</strong>, <strong>transparency</strong>, and
+        <strong>amendability</strong> &mdash; might look like.
+      </p>
+    </section>
+
+    <!-- SECTION 2: ORBITAL ELEMENTS -->
+    <section id="elements">
+      <div class="section-head">
+        <div class="num">&sect; 02</div>
+        <h2>How do we describe an orbit?</h2>
+      </div>
+
+      <p>
+        Before we can talk about allocation schemes, we need a shared vocabulary
+        for pointing at a specific orbit. An orbit around the Sun can be pinned
+        down with six numbers &mdash; the <em>classical orbital elements</em>. The
+        first two describe the <em>shape</em> of the orbit. The next three describe
+        how the orbital plane is <em>oriented</em> in space. The last describes
+        <em>where on the orbit</em> the body happens to be at a given instant.
+      </p>
+
+      <p>
+        The visualization below lets you vary each one independently. Drag to
+        rotate the view; scroll to zoom. Each slider has a "sweep" button that
+        animates that element through its range so you can see what it does in
+        isolation.
+      </p>
+
+      <!-- VIZ -->
+      <div class="viz-wrap">
+        <div class="viz-canvas-container">
+          <canvas id="viz-canvas"></canvas>
+          <div class="viz-legend">
+            <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
+            <div class="legend-item"><span class="swatch" style="background:#6aa8d8"></span>Earth (1 AU)</div>
+            <div class="legend-item"><span class="swatch line" style="background:#6aa8d855"></span>Ecliptic plane</div>
+            <div class="legend-item"><span class="swatch line" style="background:#f4d599"></span>Orbit</div>
+            <div class="legend-item"><span class="swatch" style="background:#ffffff"></span>Body</div>
+          </div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+
+        <div class="controls-grid" id="controls-grid">
+          <!-- Controls injected by JS -->
+        </div>
+
+        <div class="reset-row">
+          <span>Orbital elements</span>
+          <button class="reset-btn" id="reset-btn">Reset to defaults</button>
+        </div>
+      </div>
+
+      <h3>What each element does</h3>
+      <p>
+        <em>Semi-major axis (a)</em> sets the orbit's overall size &mdash; roughly
+        how far from the Sun it sits. <em>Eccentricity (e)</em> is how stretched
+        the orbit is: zero is a perfect circle, higher values describe more
+        elongated ellipses. These two fix the orbit's shape.
+      </p>
+      <p>
+        <em>Inclination (i)</em> is how tilted the orbital plane is relative to
+        Earth's orbital plane (the <em>ecliptic</em>). <em>Longitude of ascending
+        node (&Omega;)</em> says where, along Earth's plane, the orbit crosses
+        going "upward" &mdash; think of it as rotating the tilt axis around the
+        Sun. <em>Argument of periapsis (&omega;)</em> then rotates the ellipse
+        within its own tilted plane, controlling where the closest point to the
+        Sun sits. Together, these three orient the orbit in 3D space.
+      </p>
+      <p>
+        <em>True anomaly (&nu;)</em> is the body's actual position along the
+        orbit at a given instant. All the other elements describe the path;
+        &nu; describes where on the path the body is right now.
+      </p>
+    </section>
+
+    <!-- SECTION 3: ALLOCATION SCHEMES (placeholder) -->
+    <section id="schemes" class="placeholder">
+      <div class="section-head">
+        <div class="num">&sect; 03</div>
+        <h2>Ways we could allocate orbits</h2>
+      </div>
+      <div class="placeholder-body">
+        [To be written. This section will walk through several candidate allocation
+        schemes &mdash; latitude/longitude grid, Fibonacci spiral, greedy
+        allocation minimizing marginal screening, and random baseline &mdash;
+        each with its own interactive visualization showing how orbits distribute
+        under that scheme.]
+      </div>
+    </section>
+
+    <!-- SECTION 4: WHO BENEFITS (placeholder) -->
+    <section id="actors" class="placeholder">
+      <div class="section-head">
+        <div class="num">&sect; 04</div>
+        <h2>Who benefits from each scheme?</h2>
+      </div>
+      <div class="placeholder-body">
+        [To be written. An analysis of how the allocation schemes above interact
+        with factors different actors care about: screening (how one orbit
+        blocks another's view of the Sun), line of sight to Earth, transit
+        geometry, commercial accessibility, and strategic concentration.]
+      </div>
+    </section>
+
+    <!-- SECTION 5: GOVERNANCE (placeholder) -->
+    <section id="governance" class="placeholder">
+      <div class="section-head">
+        <div class="num">&sect; 05</div>
+        <h2>What should the rules actually try to do?</h2>
+      </div>
+      <div class="placeholder-body">
+        [To be written. Shifting from "what do actors want" to "what should
+        governance aim for": resistance to concentration of power, transparency,
+        amendability &mdash; and how fairness fits in as a stability heuristic
+        rather than a terminal goal.]
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Draft &middot; Built for feedback &middot; Not for citation
+  </footer>
+
+  <!-- =================== THREE.JS VISUALIZATION =================== -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // ---------- Orbital element definitions ----------
+    const defaults = {
+      a: 1.3,      // AU
+      e: 0.25,
+      i: 18,       // deg
+      Omega: 60,   // deg
+      omega: 90,   // deg
+      nu: 45       // deg
+    };
+
+    const elements = [
+      {
+        key: 'a', symbol: 'a', name: 'Semi-major axis',
+        desc: 'The orbit\u2019s overall size &mdash; roughly how far from the Sun it sits.',
+        min: 0.3, max: 3.0, step: 0.01, unit: 'AU', decimals: 2
+      },
+      {
+        key: 'e', symbol: 'e', name: 'Eccentricity',
+        desc: 'How stretched the orbit is. 0 is a circle; higher values are more elongated.',
+        min: 0, max: 0.85, step: 0.005, unit: '', decimals: 3
+      },
+      {
+        key: 'i', symbol: 'i', name: 'Inclination',
+        desc: 'The tilt of the orbital plane relative to Earth\u2019s orbital plane.',
+        min: 0, max: 180, step: 0.5, unit: '\u00B0', decimals: 1
+      },
+      {
+        key: 'Omega', symbol: '\u03A9', name: 'Longitude of ascending node',
+        desc: 'Where the orbit crosses the ecliptic going "upward", measured around the Sun.',
+        min: 0, max: 360, step: 0.5, unit: '\u00B0', decimals: 1
+      },
+      {
+        key: 'omega', symbol: '\u03C9', name: 'Argument of periapsis',
+        desc: 'Where the closest point to the Sun sits, measured within the tilted orbital plane.',
+        min: 0, max: 360, step: 0.5, unit: '\u00B0', decimals: 1
+      },
+      {
+        key: 'nu', symbol: '\u03BD', name: 'True anomaly',
+        desc: 'The body\u2019s actual position along the orbit at this instant.',
+        min: 0, max: 360, step: 0.5, unit: '\u00B0', decimals: 1
+      }
+    ];
+
+    const state = { ...defaults };
+    let sweepingKey = null;
+    let sweepStartTime = 0;
+
+    // ---------- Build UI controls ----------
+    const controlsGrid = document.getElementById('controls-grid');
+    const controlEls = {};
+
+    elements.forEach(el => {
+      const wrap = document.createElement('div');
+      wrap.className = 'control';
+      wrap.dataset.key = el.key;
+
+      const head = document.createElement('div');
+      head.className = 'control-head';
+      head.innerHTML = `
+        <div class="control-name">
+          <span class="control-symbol">${el.symbol}</span>${el.name}
+        </div>
+        <div class="control-value" id="val-${el.key}"></div>
+      `;
+      wrap.appendChild(head);
+
+      const desc = document.createElement('div');
+      desc.className = 'control-desc';
+      desc.innerHTML = el.desc;
+      wrap.appendChild(desc);
+
+      const row = document.createElement('div');
+      row.className = 'control-row';
+
+      const slider = document.createElement('input');
+      slider.type = 'range';
+      slider.min = el.min;
+      slider.max = el.max;
+      slider.step = el.step;
+      slider.value = state[el.key];
+      slider.addEventListener('input', () => {
+        state[el.key] = parseFloat(slider.value);
+        stopSweep();
+        updateDisplay();
+        rebuildOrbit();
+      });
+
+      const sweepBtn = document.createElement('button');
+      sweepBtn.className = 'sweep-btn';
+      sweepBtn.textContent = 'sweep';
+      sweepBtn.addEventListener('click', () => {
+        if (sweepingKey === el.key) stopSweep();
+        else startSweep(el.key);
+      });
+
+      row.appendChild(slider);
+      row.appendChild(sweepBtn);
+      wrap.appendChild(row);
+
+      controlsGrid.appendChild(wrap);
+      controlEls[el.key] = { wrap, slider, sweepBtn };
+    });
+
+    function updateDisplay() {
+      elements.forEach(el => {
+        const v = state[el.key];
+        const str = v.toFixed(el.decimals) + (el.unit ? ' ' + el.unit : '');
+        document.getElementById('val-' + el.key).textContent = str;
+        controlEls[el.key].slider.value = v;
+      });
+    }
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      stopSweep();
+      Object.assign(state, defaults);
+      updateDisplay();
+      rebuildOrbit();
+    });
+
+    function startSweep(key) {
+      sweepingKey = key;
+      sweepStartTime = performance.now();
+      Object.values(controlEls).forEach(c => c.sweepBtn.classList.remove('active'));
+      Object.values(controlEls).forEach(c => c.wrap.classList.remove('active'));
+      controlEls[key].sweepBtn.classList.add('active');
+      controlEls[key].wrap.classList.add('active');
+    }
+    function stopSweep() {
+      if (sweepingKey) {
+        controlEls[sweepingKey].sweepBtn.classList.remove('active');
+        controlEls[sweepingKey].wrap.classList.remove('active');
+      }
+      sweepingKey = null;
+    }
+
+    // ---------- Three.js setup ----------
+    const canvas = document.getElementById('viz-canvas');
+    const container = canvas.parentElement;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(40, 1, 0.01, 100);
+    camera.position.set(3.2, 2.4, 3.8);
+
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.rotateSpeed = 0.55;
+    controls.zoomSpeed = 0.7;
+    controls.minDistance = 0.8;
+    controls.maxDistance = 15;
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+    const sunLight = new THREE.PointLight(0xfff0c0, 1.2, 0, 1.2);
+    sunLight.position.set(0, 0, 0);
+    scene.add(sunLight);
+
+    // ---------- Sun ----------
+    const sunGroup = new THREE.Group();
+    const sunCore = new THREE.Mesh(
+      new THREE.SphereGeometry(0.08, 48, 48),
+      new THREE.MeshBasicMaterial({ color: 0xf2b143 })
+    );
+    sunGroup.add(sunCore);
+
+    // Soft glow using sprite
+    const glowCanvas = document.createElement('canvas');
+    glowCanvas.width = 256; glowCanvas.height = 256;
+    const gctx = glowCanvas.getContext('2d');
+    const grad = gctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+    grad.addColorStop(0.0, 'rgba(255, 200, 120, 0.9)');
+    grad.addColorStop(0.2, 'rgba(242, 177, 67, 0.5)');
+    grad.addColorStop(0.5, 'rgba(242, 140, 50, 0.15)');
+    grad.addColorStop(1.0, 'rgba(242, 140, 50, 0)');
+    gctx.fillStyle = grad;
+    gctx.fillRect(0, 0, 256, 256);
+    const glowTex = new THREE.CanvasTexture(glowCanvas);
+    const glow = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+    }));
+    glow.scale.set(0.55, 0.55, 0.55);
+    sunGroup.add(glow);
+    scene.add(sunGroup);
+
+    // ---------- Ecliptic plane reference grid ----------
+    const eclipticGroup = new THREE.Group();
+    // Concentric rings
+    for (let r = 0.5; r <= 3; r += 0.5) {
+      const seg = 96;
+      const pts = [];
+      for (let k = 0; k <= seg; k++) {
+        const t = (k / seg) * Math.PI * 2;
+        pts.push(new THREE.Vector3(Math.cos(t) * r, 0, Math.sin(t) * r));
+      }
+      const geom = new THREE.BufferGeometry().setFromPoints(pts);
+      const mat = new THREE.LineBasicMaterial({
+        color: 0x6aa8d8, transparent: true, opacity: r === 1.0 ? 0.0 : 0.12
+      });
+      eclipticGroup.add(new THREE.Line(geom, mat));
+    }
+    // Radial spokes
+    for (let k = 0; k < 12; k++) {
+      const t = (k / 12) * Math.PI * 2;
+      const pts = [
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(Math.cos(t) * 3, 0, Math.sin(t) * 3)
+      ];
+      const geom = new THREE.BufferGeometry().setFromPoints(pts);
+      const mat = new THREE.LineBasicMaterial({ color: 0x6aa8d8, transparent: true, opacity: 0.06 });
+      eclipticGroup.add(new THREE.Line(geom, mat));
+    }
+    scene.add(eclipticGroup);
+
+    // ---------- Earth orbit + Earth ----------
+    const earthOrbitPts = [];
+    for (let k = 0; k <= 256; k++) {
+      const t = (k / 256) * Math.PI * 2;
+      earthOrbitPts.push(new THREE.Vector3(Math.cos(t), 0, Math.sin(t)));
+    }
+    const earthOrbitGeom = new THREE.BufferGeometry().setFromPoints(earthOrbitPts);
+    const earthOrbit = new THREE.Line(earthOrbitGeom, new THREE.LineDashedMaterial({
+      color: 0x6aa8d8, dashSize: 0.06, gapSize: 0.04, transparent: true, opacity: 0.55
+    }));
+    earthOrbit.computeLineDistances();
+    scene.add(earthOrbit);
+
+    const earth = new THREE.Mesh(
+      new THREE.SphereGeometry(0.028, 24, 24),
+      new THREE.MeshStandardMaterial({ color: 0x6aa8d8, emissive: 0x1a3a55, roughness: 0.6 })
+    );
+    earth.position.set(1, 0, 0);
+    scene.add(earth);
+
+    // Reference direction arrow (+X = reference)
+    const refArrowGeom = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(3.2, 0, 0)
+    ]);
+    const refArrow = new THREE.Line(refArrowGeom, new THREE.LineBasicMaterial({
+      color: 0x6aa8d8, transparent: true, opacity: 0.25
+    }));
+    scene.add(refArrow);
+
+    // ---------- Variable orbit (rebuilt on parameter change) ----------
+    let orbitLine = null;
+    let orbitalPlane = null;
+    let bodyMesh = null;
+    let periapsisMarker = null;
+    let nodeLine = null;
+
+    function positionFromElements(a, e, i, Omega, omega, nu) {
+      const cosO = Math.cos(Omega), sinO = Math.sin(Omega);
+      const cosw = Math.cos(omega), sinw = Math.sin(omega);
+      const cosi = Math.cos(i), sini = Math.sin(i);
+
+      const r = a * (1 - e * e) / (1 + e * Math.cos(nu));
+      const x_orb = r * Math.cos(nu);
+      const y_orb = r * Math.sin(nu);
+
+      // Standard astronomy convention (ecliptic in XY, Z perpendicular)
+      const x = (cosO * cosw - sinO * sinw * cosi) * x_orb + (-cosO * sinw - sinO * cosw * cosi) * y_orb;
+      const y = (sinO * cosw + cosO * sinw * cosi) * x_orb + (-sinO * sinw + cosO * cosw * cosi) * y_orb;
+      const z = (sinw * sini) * x_orb + (cosw * sini) * y_orb;
+
+      // Remap to three.js (Y-up, ecliptic in XZ):
+      // astro_x -> three_x, astro_y -> three_z, astro_z -> three_y
+      return new THREE.Vector3(x, z, -y);
+    }
+
+    function rebuildOrbit() {
+      const a = state.a;
+      const e = state.e;
+      const i = state.i * Math.PI / 180;
+      const Omega = state.Omega * Math.PI / 180;
+      const omega = state.omega * Math.PI / 180;
+      const nu = state.nu * Math.PI / 180;
+
+      // Orbit points
+      const pts = [];
+      const N = 256;
+      for (let k = 0; k <= N; k++) {
+        const t = (k / N) * Math.PI * 2;
+        pts.push(positionFromElements(a, e, i, Omega, omega, t));
+      }
+
+      if (orbitLine) { scene.remove(orbitLine); orbitLine.geometry.dispose(); }
+      const geom = new THREE.BufferGeometry().setFromPoints(pts);
+      orbitLine = new THREE.Line(geom, new THREE.LineBasicMaterial({
+        color: 0xf4d599, transparent: true, opacity: 0.9
+      }));
+      scene.add(orbitLine);
+
+      // Body position at current nu
+      const bodyPos = positionFromElements(a, e, i, Omega, omega, nu);
+      if (!bodyMesh) {
+        bodyMesh = new THREE.Mesh(
+          new THREE.SphereGeometry(0.024, 20, 20),
+          new THREE.MeshBasicMaterial({ color: 0xffffff })
+        );
+        scene.add(bodyMesh);
+      }
+      bodyMesh.position.copy(bodyPos);
+
+      // Periapsis marker
+      const periPos = positionFromElements(a, e, i, Omega, omega, 0);
+      if (!periapsisMarker) {
+        periapsisMarker = new THREE.Mesh(
+          new THREE.SphereGeometry(0.014, 16, 16),
+          new THREE.MeshBasicMaterial({ color: 0xf2b143 })
+        );
+        scene.add(periapsisMarker);
+      }
+      periapsisMarker.position.copy(periPos);
+
+      // Line of nodes: intersection of orbital plane with ecliptic
+      // Ascending node is at argument 0 in the "node frame" -> nu + omega = 0 mod 2pi for ecliptic-crossing
+      // Simpler: ascending node direction is (cos(Omega), sin(Omega), 0) in astronomy convention
+      const nodeLen = Math.max(a * (1 + e) * 1.05, 1.2);
+      const ascAstro = [Math.cos(Omega) * nodeLen, Math.sin(Omega) * nodeLen, 0];
+      const descAstro = [-ascAstro[0], -ascAstro[1], 0];
+      // Remap: (ax, ay, az) -> (ax, az, -ay)
+      const asc = new THREE.Vector3(ascAstro[0], ascAstro[2], -ascAstro[1]);
+      const desc = new THREE.Vector3(descAstro[0], descAstro[2], -descAstro[1]);
+
+      if (nodeLine) { scene.remove(nodeLine); nodeLine.geometry.dispose(); }
+      const nodeGeom = new THREE.BufferGeometry().setFromPoints([desc, asc]);
+      nodeLine = new THREE.Line(nodeGeom, new THREE.LineDashedMaterial({
+        color: 0xf4d599, dashSize: 0.08, gapSize: 0.06, transparent: true, opacity: 0.4
+      }));
+      nodeLine.computeLineDistances();
+      scene.add(nodeLine);
+    }
+
+    // ---------- Sweep animation ----------
+    function updateSweep(now) {
+      if (!sweepingKey) return;
+      const el = elements.find(e => e.key === sweepingKey);
+      const period = 6000; // ms for full sweep
+      const t = ((now - sweepStartTime) % period) / period;
+      // Smooth triangle wave for most, full cycle for angular
+      let v;
+      if (el.key === 'Omega' || el.key === 'omega' || el.key === 'nu') {
+        v = el.min + t * (el.max - el.min);
+      } else {
+        // Triangle wave: 0 -> 1 -> 0
+        const tri = t < 0.5 ? t * 2 : (1 - t) * 2;
+        v = el.min + tri * (el.max - el.min);
+      }
+      state[el.key] = v;
+      updateDisplay();
+      rebuildOrbit();
+    }
+
+    // ---------- Resize / render loop ----------
+    function resize() {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function animate(now) {
+      updateSweep(now);
+      controls.update();
+      // Gently rotate the glow sprite to add life? keep static for clarity
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+
+    // ---------- Initial draw ----------
+    updateDisplay();
+    rebuildOrbit();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
