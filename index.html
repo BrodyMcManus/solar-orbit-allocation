@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Allocating Solar Orbits &mdash; A Working Document</title>
+  <title>How to allocate orbits around the sun</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -207,17 +207,10 @@
 
     /* ---------- Visualization ---------- */
     .viz-wrap {
-      margin: 2rem -1rem 2rem;  /* slight bleed on smaller screens */
+      margin: 2rem 0;
       background: #05060a;
       border: 1px solid var(--rule);
       overflow: hidden;
-    }
-    @media (min-width: 860px) {
-      .viz-wrap {
-        margin-left: calc(-1 * (100vw - 780px) / 2 + 2rem);
-        margin-right: calc(-1 * (100vw - 780px) / 2 + 2rem);
-        max-width: none;
-      }
     }
 
     .viz-canvas-container {
@@ -225,8 +218,71 @@
       width: 100%;
       aspect-ratio: 16 / 10;
       background: radial-gradient(ellipse at center, #0d1018 0%, #05060a 80%);
+      cursor: pointer;
     }
+    .viz-canvas-container.active { cursor: default; }
     #viz-canvas { display: block; width: 100%; height: 100%; }
+
+    .viz-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5, 6, 10, 0.35);
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .viz-overlay.hidden { opacity: 0; }
+    .viz-overlay-msg {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      border: 1px solid var(--rule);
+      padding: 0.5rem 1rem;
+      background: rgba(5, 6, 10, 0.7);
+    }
+
+    /* Toggle row */
+    .toggle-row {
+      padding: 0.6rem 1.2rem;
+      background: var(--bg-raised);
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .toggle-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-right: 0.2rem;
+    }
+    button.toggle-btn {
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--text-faint);
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.55rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    button.toggle-btn.active {
+      border-color: var(--accent-dim);
+      color: var(--text-dim);
+    }
+    button.toggle-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
 
     .viz-legend {
       position: absolute;
@@ -425,11 +481,10 @@
   <main>
     <div class="titleblock">
       <div class="eyebrow">Early Research &middot; Solar Infrastructure Governance</div>
-      <h1>Allocating orbits around the Sun, <em>and why it matters.</em></h1>
+      <h1>How to allocate orbits around the sun</h1>
       <p class="subtitle">
-        A working document on how governance rules for large-scale space infrastructure
-        &mdash; Dyson-swarm-type scenarios &mdash; might shape the long-run distribution
-        of power and resources.
+        A working document exploring how different governance frameworks for allocating
+        orbits around the sun might shape the long-run distribution of power and resources.
       </p>
       <div class="meta">
         <span>&sect; 5 sections</span>
@@ -441,11 +496,12 @@
     <!-- SUMMARY / KEY TAKEAWAYS -->
     <div class="summary-card">
       <div class="summary-label">Summary &middot; In One Minute</div>
-      <p class="placeholder-text">
-        [To be written. The plan: a short summary of the document's main claims
-        &mdash; why orbit allocation is a governance question, what allocation
-        schemes are possible, which factors they trade off against, and what a
-        good rule set should try to preserve.]
+      <p>
+        This document covers: why orbit allocation is fundamentally a governance question;
+        one way to define what makes an allocation scheme distinct; what schemes are possible
+        under that definition; the factors that make certain orbits more valuable than others
+        and how they trade off against each other; and what qualities or outcomes a good
+        governance framework should try to achieve.
       </p>
     </div>
 
@@ -525,14 +581,25 @@
       <div class="viz-wrap">
         <div class="viz-canvas-container">
           <canvas id="viz-canvas"></canvas>
+          <div class="viz-overlay" id="viz-overlay">
+            <div class="viz-overlay-msg">Click to interact</div>
+          </div>
           <div class="viz-legend">
             <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
             <div class="legend-item"><span class="swatch" style="background:#6aa8d8"></span>Earth (1 AU)</div>
             <div class="legend-item"><span class="swatch line" style="background:#6aa8d855"></span>Ecliptic plane</div>
             <div class="legend-item"><span class="swatch line" style="background:#f4d599"></span>Orbit</div>
-            <div class="legend-item"><span class="swatch" style="background:#ffffff"></span>Body</div>
+            <div class="legend-item"><span class="swatch" style="background:#ffffff"></span>Solar Captor</div>
+            <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Periapsis (&nu; = 0&deg;)</div>
           </div>
-          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+          <div class="viz-hint">Click to interact &middot; Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+
+        <div class="toggle-row">
+          <span class="toggle-label">Show:</span>
+          <button class="toggle-btn active" data-target="ecliptic">Ecliptic plane</button>
+          <button class="toggle-btn active" data-target="earth">Earth</button>
+          <button class="toggle-btn active" data-target="earth-orbit">Earth's orbit</button>
         </div>
 
         <div class="controls-grid" id="controls-grid">
@@ -632,7 +699,7 @@
 
     // ---------- Orbital element definitions ----------
     const defaults = {
-      a: 1.3,      // AU
+      a: 0.6,      // AU
       e: 0.25,
       i: 18,       // deg
       Omega: 60,   // deg
@@ -644,7 +711,7 @@
       {
         key: 'a', symbol: 'a', name: 'Semi-major axis',
         desc: 'The orbit\u2019s overall size &mdash; roughly how far from the Sun it sits.',
-        min: 0.3, max: 3.0, step: 0.01, unit: 'AU', decimals: 2
+        min: 0.2, max: 0.9, step: 0.01, unit: 'AU', decimals: 2
       },
       {
         key: 'e', symbol: 'e', name: 'Eccentricity',
@@ -820,6 +887,16 @@
 
     // ---------- Ecliptic plane reference grid ----------
     const eclipticGroup = new THREE.Group();
+
+    // Filled disc for the plane (very subtle)
+    const discGeom = new THREE.CircleGeometry(3.5, 96);
+    const discMat = new THREE.MeshBasicMaterial({
+      color: 0x1a3a55, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthWrite: false
+    });
+    const discMesh = new THREE.Mesh(discGeom, discMat);
+    discMesh.rotation.x = -Math.PI / 2;
+    eclipticGroup.add(discMesh);
+
     // Concentric rings
     for (let r = 0.5; r <= 3; r += 0.5) {
       const seg = 96;
@@ -830,7 +907,7 @@
       }
       const geom = new THREE.BufferGeometry().setFromPoints(pts);
       const mat = new THREE.LineBasicMaterial({
-        color: 0x6aa8d8, transparent: true, opacity: r === 1.0 ? 0.0 : 0.12
+        color: 0x6aa8d8, transparent: true, opacity: r === 1.0 ? 0.2 : 0.25
       });
       eclipticGroup.add(new THREE.Line(geom, mat));
     }
@@ -839,10 +916,10 @@
       const t = (k / 12) * Math.PI * 2;
       const pts = [
         new THREE.Vector3(0, 0, 0),
-        new THREE.Vector3(Math.cos(t) * 3, 0, Math.sin(t) * 3)
+        new THREE.Vector3(Math.cos(t) * 3.5, 0, Math.sin(t) * 3.5)
       ];
       const geom = new THREE.BufferGeometry().setFromPoints(pts);
-      const mat = new THREE.LineBasicMaterial({ color: 0x6aa8d8, transparent: true, opacity: 0.06 });
+      const mat = new THREE.LineBasicMaterial({ color: 0x6aa8d8, transparent: true, opacity: 0.15 });
       eclipticGroup.add(new THREE.Line(geom, mat));
     }
     scene.add(eclipticGroup);
@@ -942,7 +1019,7 @@
       if (!periapsisMarker) {
         periapsisMarker = new THREE.Mesh(
           new THREE.SphereGeometry(0.014, 16, 16),
-          new THREE.MeshBasicMaterial({ color: 0xf2b143 })
+          new THREE.MeshBasicMaterial({ color: 0xe07a5f })
         );
         scene.add(periapsisMarker);
       }
@@ -1010,6 +1087,45 @@
     updateDisplay();
     rebuildOrbit();
     requestAnimationFrame(animate);
+
+    // ---------- Click-to-interact (prevents page-scroll hijack) ----------
+    const vizContainer = document.querySelector('.viz-canvas-container');
+    const vizOverlay = document.getElementById('viz-overlay');
+    controls.enableZoom = false;
+
+    vizContainer.addEventListener('click', () => {
+      vizContainer.classList.add('active');
+      vizOverlay.classList.add('hidden');
+      controls.enableZoom = true;
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!vizContainer.contains(e.target)) {
+        vizContainer.classList.remove('active');
+        vizOverlay.classList.remove('hidden');
+        controls.enableZoom = false;
+      }
+    });
+
+    // ---------- Toggle buttons ----------
+    const toggleState = { ecliptic: true, earth: true, 'earth-orbit': true };
+
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        toggleState[target] = !toggleState[target];
+        btn.classList.toggle('active', toggleState[target]);
+
+        if (target === 'ecliptic') {
+          eclipticGroup.visible = toggleState[target];
+        } else if (target === 'earth') {
+          earth.visible = toggleState[target];
+        } else if (target === 'earth-orbit') {
+          earthOrbit.visible = toggleState[target];
+          refArrow.visible = toggleState[target];
+        }
+      });
+    });
   </script>
 </body>
 </html>
