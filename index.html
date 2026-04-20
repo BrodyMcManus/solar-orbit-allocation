@@ -563,18 +563,26 @@
 
       <p>
         Before we can talk about allocation schemes, we need a shared vocabulary
-        for pointing at a specific orbit. An orbit around the Sun can be pinned
-        down with six numbers &mdash; the <em>classical orbital elements</em>. The
-        first two describe the <em>shape</em> of the orbit. The next three describe
-        how the orbital plane is <em>oriented</em> in space. The last describes
-        <em>where on the orbit</em> the body happens to be at a given instant.
+        for pointing at a specific orbit. Two reference points matter throughout:
+        <em>1 AU</em> (astronomical unit) is the average Earth&ndash;Sun distance
+        &mdash; roughly 150 million kilometres &mdash; and serves as the natural
+        unit of distance in this context. The <em>ecliptic plane</em> is the flat
+        disc defined by Earth&rsquo;s own orbit around the Sun; inclination and
+        other angular elements are measured relative to it.
       </p>
 
       <p>
-        The visualization below lets you vary each one independently. Drag to
-        rotate the view; scroll to zoom. Each slider has a "sweep" button that
-        animates that element through its range so you can see what it does in
-        isolation.
+        With those in hand, any orbit around the Sun can be pinned down with six
+        numbers &mdash; the <em>classical orbital elements</em>. The first two
+        describe the <em>shape</em> of the orbit. The next three describe how the
+        orbital plane is <em>oriented</em> in space. The last describes
+        <em>where on the orbit</em> the captor happens to be at a given instant.
+      </p>
+
+      <p>
+        The visualization below lets you vary each one independently. Each slider
+        has a "sweep" button that animates that element through its range so you
+        can see what it does in isolation.
       </p>
 
       <!-- VIZ -->
@@ -592,14 +600,13 @@
             <div class="legend-item"><span class="swatch" style="background:#ffffff"></span>Solar Captor</div>
             <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Periapsis (&nu; = 0&deg;)</div>
           </div>
-          <div class="viz-hint">Click to interact &middot; Drag to rotate &middot; Scroll to zoom</div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
         </div>
 
         <div class="toggle-row">
           <span class="toggle-label">Show:</span>
           <button class="toggle-btn active" data-target="ecliptic">Ecliptic plane</button>
-          <button class="toggle-btn active" data-target="earth">Earth</button>
-          <button class="toggle-btn active" data-target="earth-orbit">Earth's orbit</button>
+          <button class="toggle-btn active" data-target="earth">Earth &amp; orbit</button>
         </div>
 
         <div class="controls-grid" id="controls-grid">
@@ -612,27 +619,6 @@
         </div>
       </div>
 
-      <h3>What each element does</h3>
-      <p>
-        <em>Semi-major axis (a)</em> sets the orbit's overall size &mdash; roughly
-        how far from the Sun it sits. <em>Eccentricity (e)</em> is how stretched
-        the orbit is: zero is a perfect circle, higher values describe more
-        elongated ellipses. These two fix the orbit's shape.
-      </p>
-      <p>
-        <em>Inclination (i)</em> is how tilted the orbital plane is relative to
-        Earth's orbital plane (the <em>ecliptic</em>). <em>Longitude of ascending
-        node (&Omega;)</em> says where, along Earth's plane, the orbit crosses
-        going "upward" &mdash; think of it as rotating the tilt axis around the
-        Sun. <em>Argument of periapsis (&omega;)</em> then rotates the ellipse
-        within its own tilted plane, controlling where the closest point to the
-        Sun sits. Together, these three orient the orbit in 3D space.
-      </p>
-      <p>
-        <em>True anomaly (&nu;)</em> is the body's actual position along the
-        orbit at a given instant. All the other elements describe the path;
-        &nu; describes where on the path the body is right now.
-      </p>
     </section>
 
     <!-- SECTION 3: ALLOCATION SCHEMES (placeholder) -->
@@ -735,7 +721,7 @@
       },
       {
         key: 'nu', symbol: '\u03BD', name: 'True anomaly',
-        desc: 'The body\u2019s actual position along the orbit at this instant.',
+        desc: 'The captor\u2019s actual position along the orbit at this instant.',
         min: 0, max: 360, step: 0.5, unit: '\u00B0', decimals: 1
       }
     ];
@@ -1090,25 +1076,31 @@
 
     // ---------- Click-to-interact (prevents page-scroll hijack) ----------
     const vizContainer = document.querySelector('.viz-canvas-container');
+    const vizWrap = document.querySelector('.viz-wrap');
     const vizOverlay = document.getElementById('viz-overlay');
     controls.enableZoom = false;
 
-    vizContainer.addEventListener('click', () => {
+    function activateViz() {
       vizContainer.classList.add('active');
       vizOverlay.classList.add('hidden');
       controls.enableZoom = true;
-    });
+    }
+    function deactivateViz() {
+      vizContainer.classList.remove('active');
+      vizOverlay.classList.remove('hidden');
+      controls.enableZoom = false;
+    }
+
+    vizContainer.addEventListener('click', activateViz);
 
     document.addEventListener('click', (e) => {
-      if (!vizContainer.contains(e.target)) {
-        vizContainer.classList.remove('active');
-        vizOverlay.classList.remove('hidden');
-        controls.enableZoom = false;
+      if (!vizWrap.contains(e.target)) {
+        deactivateViz();
       }
     });
 
     // ---------- Toggle buttons ----------
-    const toggleState = { ecliptic: true, earth: true, 'earth-orbit': true };
+    const toggleState = { ecliptic: true, earth: true };
 
     document.querySelectorAll('.toggle-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1120,7 +1112,6 @@
           eclipticGroup.visible = toggleState[target];
         } else if (target === 'earth') {
           earth.visible = toggleState[target];
-        } else if (target === 'earth-orbit') {
           earthOrbit.visible = toggleState[target];
           refArrow.visible = toggleState[target];
         }
