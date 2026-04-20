@@ -562,27 +562,21 @@
       </div>
 
       <p>
-        Before we can talk about allocation schemes, we need a shared vocabulary
-        for pointing at a specific orbit. Two reference points matter throughout:
-        <em>1 AU</em> (astronomical unit) is the average Earth&ndash;Sun distance
-        &mdash; roughly 150 million kilometres &mdash; and serves as the natural
-        unit of distance in this context. The <em>ecliptic plane</em> is the flat
-        disc defined by Earth&rsquo;s own orbit around the Sun; inclination and
-        other angular elements are measured relative to it.
+        Two reference points matter throughout: <em>1 AU</em> (astronomical unit)
+        is the average Earth&ndash;Sun distance &mdash; roughly 150 million
+        kilometres. The <em>ecliptic plane</em> is the flat disc defined by
+        Earth&rsquo;s own orbit around the Sun.
       </p>
 
       <p>
-        With those in hand, any orbit around the Sun can be pinned down with six
-        numbers &mdash; the <em>classical orbital elements</em>. The first two
-        describe the <em>shape</em> of the orbit. The next three describe how the
-        orbital plane is <em>oriented</em> in space. The last describes
-        <em>where on the orbit</em> the captor happens to be at a given instant.
-      </p>
-
-      <p>
-        The visualization below lets you vary each one independently. Each slider
-        has a "sweep" button that animates that element through its range so you
-        can see what it does in isolation.
+        Any orbit around the Sun can be uniquely defined with six numbers. There
+        are many equivalent ways to choose them, but for intuitive interpretation
+        we use the <em>classical orbital elements</em>.<sup><a href="https://orbital-mechanics.space/classical-orbital-elements/classical-orbital-elements.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">&#x2197;</a></sup>
+        The first two describe the <em>shape</em> of the orbit. The next three
+        describe how the orbital plane is <em>oriented</em> in space. The last
+        describes <em>where on the orbit</em> the captor happens to be at a given
+        instant. Use the visualization below to build an intuition for what each
+        parameter does.
       </p>
 
       <!-- VIZ -->
@@ -618,6 +612,14 @@
           <button class="reset-btn" id="reset-btn">Reset to defaults</button>
         </div>
       </div>
+
+      <p>
+        Each of these six numbers can be &ldquo;allocated&rdquo; to an actor
+        that wants to place a captor in orbit around the Sun. How that allocation
+        is structured &mdash; who decides, on what basis, and with what
+        constraints &mdash; carries significant governance implications, which
+        the next section explores.
+      </p>
 
     </section>
 
@@ -706,17 +708,17 @@
       },
       {
         key: 'i', symbol: 'i', name: 'Inclination',
-        desc: 'The tilt of the orbital plane relative to Earth\u2019s orbital plane.',
+        desc: 'The tilt of the orbital plane relative to the ecliptic plane.',
         min: 0, max: 180, step: 0.5, unit: '\u00B0', decimals: 1
       },
       {
         key: 'Omega', symbol: '\u03A9', name: 'Longitude of ascending node',
-        desc: 'Where the orbit crosses the ecliptic going "upward", measured around the Sun.',
+        desc: 'Where the solar captor\u2019s orbit crosses the ecliptic plane going \u201cupward\u201d, measured around the Sun.',
         min: 0, max: 360, step: 0.5, unit: '\u00B0', decimals: 1
       },
       {
         key: 'omega', symbol: '\u03C9', name: 'Argument of periapsis',
-        desc: 'Where the closest point to the Sun sits, measured within the tilted orbital plane.',
+        desc: 'The point in the orbit where the solar captor is closest to the Sun.',
         min: 0, max: 360, step: 0.5, unit: '\u00B0', decimals: 1
       },
       {
