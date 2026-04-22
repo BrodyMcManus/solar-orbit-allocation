@@ -616,26 +616,271 @@
       <p>
         Each of these six numbers can be &ldquo;allocated&rdquo; to an actor
         that wants to place a captor in orbit around the Sun. How that allocation
-        is structured &mdash; who decides, on what basis, and with what
-        constraints &mdash; carries significant governance implications, which
+        is structured carries significant governance implications, which
         the next section explores.
       </p>
 
     </section>
 
-    <!-- SECTION 3: ALLOCATION SCHEMES (placeholder) -->
-    <section id="schemes" class="placeholder">
+    <!-- SECTION 3: ALLOCATION SCHEMES -->
+    <section id="schemes">
       <div class="section-head">
         <div class="num">&sect; 03</div>
         <h2>Ways we could allocate orbits</h2>
       </div>
-      <div class="placeholder-body">
-        [To be written. This section will walk through several candidate allocation
-        schemes &mdash; latitude/longitude grid, Fibonacci spiral, greedy
-        allocation minimizing marginal screening, and random baseline &mdash;
-        each with its own interactive visualization showing how orbits distribute
-        under that scheme.]
+
+      <p>
+        With a vocabulary for describing individual orbits, we can ask how a governance
+        framework might assign them. The visualizations below build intuition for each
+        orbital dimension in turn, then combine them into two candidate allocation
+        schemes. Three illustrative actors &mdash; <span style="color:#e07a5f">A</span>,
+        <span style="color:#4fa3d1">B</span>, <span style="color:#81c47e">C</span>
+        &mdash; are used throughout.
+      </p>
+
+      <h3>Radius: fixed shell vs variable</h3>
+      <p>
+        If eccentricity is zero, every orbit is a circle. A set of circular orbits at
+        the same radius forms a <em>shell</em>. Any two distinct circular orbits at the
+        same radius share exactly two crossing points &mdash; so captors on a single
+        shell require time-coordinated collision avoidance, placing a practical ceiling
+        on how densely a shell can be packed. Allowing variable radius removes the
+        constraint: captors on different shells never share a spatial path.
+      </p>
+
+      <!-- Viz 3A -->
+      <div class="viz-wrap" id="viz3a-wrap">
+        <div class="viz-canvas-container" id="viz3a-container">
+          <canvas id="viz3a-canvas"></canvas>
+          <div class="viz-overlay" id="viz3a-overlay"><div class="viz-overlay-msg">Click to interact</div></div>
+          <div class="viz-legend">
+            <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
+            <div class="legend-item"><span class="swatch line" style="background:#6aa8d855"></span>Ecliptic (1 AU)</div>
+            <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Actor A</div>
+            <div class="legend-item"><span class="swatch" style="background:#4fa3d1"></span>Actor B</div>
+            <div class="legend-item"><span class="swatch" style="background:#81c47e"></span>Actor C</div>
+          </div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+        <div class="controls-grid">
+          <div class="control">
+            <div class="control-head"><div class="control-name">Mode</div></div>
+            <div class="control-desc">Single shell (fixed <em>a</em>) or expanding shells (variable <em>a</em>).</div>
+            <div class="control-row" style="gap:0.4rem">
+              <button class="sweep-btn active" id="viz3a-fixed-btn">Fixed <em>a</em></button>
+              <button class="sweep-btn" id="viz3a-var-btn">Variable <em>a</em></button>
+            </div>
+          </div>
+          <div class="control" id="viz3a-shell-ctrl" style="display:none">
+            <div class="control-head">
+              <div class="control-name">Max radius</div>
+              <div class="control-value" id="viz3a-shell-val">0.25 AU</div>
+            </div>
+            <div class="control-desc">Expand outward to add more shells.</div>
+            <div class="control-row">
+              <input type="range" id="viz3a-shell-slider" min="0" max="4" step="1" value="0">
+            </div>
+          </div>
+          <div class="control">
+            <div class="control-head">
+              <div class="control-name">Orbits per shell</div>
+              <div class="control-value" id="viz3a-n-val">12</div>
+            </div>
+            <div class="control-desc">Orbit rings shown on each shell, distributed by Fibonacci lattice.</div>
+            <div class="control-row">
+              <input type="range" id="viz3a-n-slider" min="4" max="32" step="4" value="12">
+            </div>
+          </div>
+        </div>
+        <div class="reset-row">
+          <span>Shell packing &mdash; <em>e</em> = 0</span>
+          <button class="reset-btn" id="viz3a-reset">Reset</button>
+        </div>
       </div>
+
+      <p>
+        For the remaining visualizations, variable radius is assumed throughout.
+        As the geometry above shows, single-shell packing is collision-constrained
+        in a way that multi-shell allocations are not &mdash; making variable
+        radius a near prerequisite for any full-scale swarm.
+      </p>
+
+      <h3>Inclination: adding orbital bands</h3>
+      <p>
+        Starting from the ecliptic (i&nbsp;=&nbsp;0&deg;) and increasing the
+        inclination range, new orbital bands emerge. Each band represents a family of
+        orbits tilted at that angle relative to Earth&rsquo;s orbital plane. Bands
+        are distributed between the three actors as they appear.
+      </p>
+
+      <!-- Viz 3B -->
+      <div class="viz-wrap" id="viz3b-wrap">
+        <div class="viz-canvas-container" id="viz3b-container">
+          <canvas id="viz3b-canvas"></canvas>
+          <div class="viz-overlay" id="viz3b-overlay"><div class="viz-overlay-msg">Click to interact</div></div>
+          <div class="viz-legend">
+            <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
+            <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Actor A</div>
+            <div class="legend-item"><span class="swatch" style="background:#4fa3d1"></span>Actor B</div>
+            <div class="legend-item"><span class="swatch" style="background:#81c47e"></span>Actor C</div>
+          </div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+        <div class="controls-grid">
+          <div class="control" style="grid-column:1/-1">
+            <div class="control-head">
+              <div class="control-name"><span class="control-symbol">i</span>Max inclination</div>
+              <div class="control-value" id="viz3b-i-val">30&deg;</div>
+            </div>
+            <div class="control-desc">Adds orbital bands at each 15&deg; step up to this angle (and their mirror inclinations).</div>
+            <div class="control-row">
+              <input type="range" id="viz3b-i-slider" min="0" max="90" step="15" value="30">
+            </div>
+          </div>
+        </div>
+        <div class="reset-row">
+          <span>Inclination bands &mdash; variable <em>a</em></span>
+          <button class="reset-btn" id="viz3b-reset">Reset</button>
+        </div>
+      </div>
+
+      <h3>Longitude of ascending node: filling each band</h3>
+      <p>
+        Within any inclination band, &Omega; controls where the orbit is rotated
+        around the Sun&rsquo;s axis. Distributing more &Omega; values populates
+        each band more densely. Set an inclination, then increase the orbit count
+        to see the band fill in.
+      </p>
+
+      <!-- Viz 3C -->
+      <div class="viz-wrap" id="viz3c-wrap">
+        <div class="viz-canvas-container" id="viz3c-container">
+          <canvas id="viz3c-canvas"></canvas>
+          <div class="viz-overlay" id="viz3c-overlay"><div class="viz-overlay-msg">Click to interact</div></div>
+          <div class="viz-legend">
+            <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
+            <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Actor A</div>
+            <div class="legend-item"><span class="swatch" style="background:#4fa3d1"></span>Actor B</div>
+            <div class="legend-item"><span class="swatch" style="background:#81c47e"></span>Actor C</div>
+          </div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+        <div class="controls-grid">
+          <div class="control">
+            <div class="control-head">
+              <div class="control-name"><span class="control-symbol">i</span>Inclination</div>
+              <div class="control-value" id="viz3c-i-val">30&deg;</div>
+            </div>
+            <div class="control-desc">The orbital band to populate.</div>
+            <div class="control-row">
+              <input type="range" id="viz3c-i-slider" min="5" max="85" step="5" value="30">
+            </div>
+          </div>
+          <div class="control">
+            <div class="control-head">
+              <div class="control-name"><span class="control-symbol">&Omega;</span>Orbits in band</div>
+              <div class="control-value" id="viz3c-n-val">4</div>
+            </div>
+            <div class="control-desc">Orbits evenly spaced in &Omega; from 0&deg; to 360&deg;, shown at each shell.</div>
+            <div class="control-row">
+              <input type="range" id="viz3c-n-slider" min="1" max="36" step="1" value="4">
+            </div>
+          </div>
+        </div>
+        <div class="reset-row">
+          <span>&Omega; distribution &mdash; variable <em>a</em></span>
+          <button class="reset-btn" id="viz3c-reset">Reset</button>
+        </div>
+      </div>
+
+      <h3>True anomaly: dividing a single orbit between actors</h3>
+      <p>
+        Even a single orbital path can host many captors, staggered in position along
+        it. The 360&deg; of each orbit are divided into 3&deg; segments below;
+        as the slider fills them in, three actors share each path in sequence.
+      </p>
+
+      <!-- Viz 3D -->
+      <div class="viz-wrap" id="viz3d-wrap">
+        <div class="viz-canvas-container" id="viz3d-container">
+          <canvas id="viz3d-canvas"></canvas>
+          <div class="viz-overlay" id="viz3d-overlay"><div class="viz-overlay-msg">Click to interact</div></div>
+          <div class="viz-legend">
+            <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
+            <div class="legend-item"><span class="swatch line" style="background:#555566"></span>Orbit path</div>
+            <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Actor A</div>
+            <div class="legend-item"><span class="swatch" style="background:#4fa3d1"></span>Actor B</div>
+            <div class="legend-item"><span class="swatch" style="background:#81c47e"></span>Actor C</div>
+          </div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+        <div class="controls-grid">
+          <div class="control" style="grid-column:1/-1">
+            <div class="control-head">
+              <div class="control-name"><span class="control-symbol">&nu;</span>Fill</div>
+              <div class="control-value" id="viz3d-fill-val">45&deg;</div>
+            </div>
+            <div class="control-desc">Fraction of each orbit filled with captors, split evenly between three actors in 3&deg; segments.</div>
+            <div class="control-row">
+              <input type="range" id="viz3d-fill-slider" min="0" max="360" step="3" value="45">
+            </div>
+          </div>
+        </div>
+        <div class="reset-row">
+          <span>True anomaly allocation</span>
+          <button class="reset-btn" id="viz3d-reset">Reset</button>
+        </div>
+      </div>
+
+      <h3>Full allocation: random and Fibonacci</h3>
+      <p>
+        Combining variable radius, inclination, and &Omega; gives a
+        three-dimensional allocation problem. Two natural starting points are a
+        purely random draw and a Fibonacci (golden-angle) lattice, which spreads
+        orbits near-uniformly across all possible orientations. The Fibonacci
+        scheme minimises clustering but imposes a fixed ordering &mdash; itself a
+        governance choice.
+      </p>
+
+      <!-- Viz 3E -->
+      <div class="viz-wrap" id="viz3e-wrap">
+        <div class="viz-canvas-container" id="viz3e-container">
+          <canvas id="viz3e-canvas"></canvas>
+          <div class="viz-overlay" id="viz3e-overlay"><div class="viz-overlay-msg">Click to interact</div></div>
+          <div class="viz-legend">
+            <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
+            <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Actor A</div>
+            <div class="legend-item"><span class="swatch" style="background:#4fa3d1"></span>Actor B</div>
+            <div class="legend-item"><span class="swatch" style="background:#81c47e"></span>Actor C</div>
+          </div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+        <div class="controls-grid">
+          <div class="control">
+            <div class="control-head"><div class="control-name">Scheme</div></div>
+            <div class="control-desc">How orbits are distributed across radius, inclination, and &Omega;.</div>
+            <div class="control-row" style="gap:0.4rem">
+              <button class="sweep-btn" id="viz3e-rand-btn">Random</button>
+              <button class="sweep-btn active" id="viz3e-fib-btn">Fibonacci</button>
+            </div>
+          </div>
+          <div class="control">
+            <div class="control-head">
+              <div class="control-name">N orbits</div>
+              <div class="control-value" id="viz3e-n-val">48</div>
+            </div>
+            <div class="control-desc">Total orbital paths to allocate across all shells.</div>
+            <div class="control-row">
+              <input type="range" id="viz3e-n-slider" min="6" max="96" step="6" value="48">
+            </div>
+          </div>
+        </div>
+        <div class="reset-row">
+          <span>Full allocation &mdash; variable <em>a</em>, <em>i</em>, &Omega;</span>
+          <button class="reset-btn" id="viz3e-reset">Reset</button>
+        </div>
+      </div>
+
     </section>
 
     <!-- SECTION 4: WHO BENEFITS (placeholder) -->
@@ -670,6 +915,378 @@
   <footer>
     Draft &middot; Built for feedback &middot; Not for citation
   </footer>
+
+  <!-- =================== SECTION 3 VISUALIZATIONS =================== -->
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // ---- Shared constants ----
+    const DEG = Math.PI / 180;
+    const TAU = Math.PI * 2;
+    const ACTORS = [0xe07a5f, 0x4fa3d1, 0x81c47e];
+    const SHELLS = [0.25, 0.40, 0.55, 0.70, 0.85];
+    const PHI = (1 + Math.sqrt(5)) / 2;
+
+    // ---- Orbit geometry (e=0, omega=0) ----
+    function orbitPt(a, i_rad, O_rad, nu) {
+      const cosO = Math.cos(O_rad), sinO = Math.sin(O_rad);
+      const cosi = Math.cos(i_rad), sini = Math.sin(i_rad);
+      const xo = a * Math.cos(nu), yo = a * Math.sin(nu);
+      const x = cosO * xo - sinO * cosi * yo;
+      const y = sinO * xo + cosO * cosi * yo;
+      const z = sini * yo;
+      return new THREE.Vector3(x, z, -y);
+    }
+
+    function makeOrbit(a, i_deg, O_deg, color, opacity = 0.72, N = 128) {
+      const pts = Array.from({length: N + 1}, (_, k) =>
+        orbitPt(a, i_deg * DEG, O_deg * DEG, k / N * TAU));
+      return new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({ color, transparent: true, opacity })
+      );
+    }
+
+    function clearGroup(g) {
+      while (g.children.length) {
+        const c = g.children[0];
+        if (c.geometry) c.geometry.dispose();
+        if (c.material) c.material.dispose();
+        g.remove(c);
+      }
+    }
+
+    // ---- Fibonacci orbit distribution ----
+    function fibOrbit(k, N) {
+      return {
+        i: Math.acos(1 - 2 * (k + 0.5) / N) / DEG,
+        O: (k / PHI * 360) % 360
+      };
+    }
+
+    // ---- Scene factory ----
+    const allScenes = [];
+    const visibleSet = new Set();
+
+    function initScene(canvasId, camPos = [1.8, 1.4, 2.2]) {
+      const canvas = document.getElementById(canvasId);
+      const container = canvas.parentElement;
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(40, 1, 0.01, 50);
+      camera.position.set(...camPos);
+      const controls = new OrbitControls(camera, canvas);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+      controls.enableZoom = false;
+      controls.minDistance = 0.4;
+      controls.maxDistance = 7;
+
+      function resize() {
+        const w = container.clientWidth, h = container.clientHeight;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      // Sun
+      scene.add(new THREE.Mesh(
+        new THREE.SphereGeometry(0.055, 24, 24),
+        new THREE.MeshBasicMaterial({ color: 0xf2b143 })
+      ));
+      // Ecliptic disc
+      const disc = new THREE.Mesh(
+        new THREE.CircleGeometry(1.1, 64),
+        new THREE.MeshBasicMaterial({ color: 0x1a3a55, transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false })
+      );
+      disc.rotation.x = -Math.PI / 2;
+      scene.add(disc);
+      // 1 AU ring
+      const ePts = Array.from({length: 129}, (_, k) =>
+        new THREE.Vector3(Math.cos(k / 128 * TAU), 0, Math.sin(k / 128 * TAU)));
+      const eRing = new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(ePts),
+        new THREE.LineDashedMaterial({ color: 0x6aa8d8, dashSize: 0.05, gapSize: 0.04, transparent: true, opacity: 0.28 })
+      );
+      eRing.computeLineDistances();
+      scene.add(eRing);
+
+      const entry = { renderer, scene, camera, controls };
+      allScenes.push(entry);
+
+      // Only render when in viewport
+      const obs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) visibleSet.add(entry); else visibleSet.delete(entry);
+      });
+      obs.observe(canvas);
+
+      return entry;
+    }
+
+    // ---- Click-to-interact helper ----
+    function setupCTI(wrapId, controls) {
+      const wrap = document.getElementById(wrapId);
+      const container = wrap.querySelector('.viz-canvas-container');
+      const overlay = wrap.querySelector('.viz-overlay');
+      container.addEventListener('click', () => {
+        container.classList.add('active');
+        overlay.classList.add('hidden');
+        controls.enableZoom = true;
+      });
+      document.addEventListener('click', (e) => {
+        if (!wrap.contains(e.target)) {
+          container.classList.remove('active');
+          overlay.classList.remove('hidden');
+          controls.enableZoom = false;
+        }
+      });
+    }
+
+    // ==== VIZ 3A: Shell packing ====
+    {
+      const { scene, controls } = initScene('viz3a-canvas', [1.6, 1.2, 2.0]);
+      setupCTI('viz3a-wrap', controls);
+      const g = new THREE.Group(); scene.add(g);
+      let mode = 'fixed', nPerShell = 12, shellIdx = 0;
+      const shellLabels = ['0.25 AU','0.40 AU','0.55 AU','0.70 AU','0.85 AU'];
+
+      function rebuild() {
+        clearGroup(g);
+        const shells = mode === 'fixed' ? [0.5] : SHELLS.slice(0, shellIdx + 1);
+        shells.forEach((a) => {
+          for (let k = 0; k < nPerShell; k++) {
+            const f = fibOrbit(k, nPerShell);
+            g.add(makeOrbit(a, f.i, f.O, ACTORS[k % 3], mode === 'fixed' ? 0.78 : 0.62));
+          }
+        });
+      }
+      rebuild();
+
+      const fixedBtn = document.getElementById('viz3a-fixed-btn');
+      const varBtn   = document.getElementById('viz3a-var-btn');
+      const shellCtrl = document.getElementById('viz3a-shell-ctrl');
+
+      fixedBtn.addEventListener('click', () => {
+        mode = 'fixed'; fixedBtn.classList.add('active'); varBtn.classList.remove('active');
+        shellCtrl.style.display = 'none'; rebuild();
+      });
+      varBtn.addEventListener('click', () => {
+        mode = 'variable'; varBtn.classList.add('active'); fixedBtn.classList.remove('active');
+        shellCtrl.style.display = ''; rebuild();
+      });
+      document.getElementById('viz3a-shell-slider').addEventListener('input', (e) => {
+        shellIdx = parseInt(e.target.value);
+        document.getElementById('viz3a-shell-val').textContent = shellLabels[shellIdx];
+        rebuild();
+      });
+      document.getElementById('viz3a-n-slider').addEventListener('input', (e) => {
+        nPerShell = parseInt(e.target.value);
+        document.getElementById('viz3a-n-val').textContent = nPerShell;
+        rebuild();
+      });
+      document.getElementById('viz3a-reset').addEventListener('click', () => {
+        mode = 'fixed'; nPerShell = 12; shellIdx = 0;
+        document.getElementById('viz3a-n-slider').value = 12;
+        document.getElementById('viz3a-shell-slider').value = 0;
+        document.getElementById('viz3a-n-val').textContent = 12;
+        document.getElementById('viz3a-shell-val').textContent = shellLabels[0];
+        fixedBtn.classList.add('active'); varBtn.classList.remove('active');
+        shellCtrl.style.display = 'none'; rebuild();
+      });
+    }
+
+    // ==== VIZ 3B: Inclination bands ====
+    {
+      const { scene, controls } = initScene('viz3b-canvas');
+      setupCTI('viz3b-wrap', controls);
+      const g = new THREE.Group(); scene.add(g);
+      let maxI = 30;
+
+      function rebuild() {
+        clearGroup(g);
+        let orbitIdx = 0;
+        for (let inc = 0; inc <= maxI; inc += 15) {
+          const iVals = inc === 0 ? [0] : [inc, 180 - inc];
+          iVals.forEach(iVal => {
+            SHELLS.forEach((a) => {
+              for (let q = 0; q < 4; q++) {
+                g.add(makeOrbit(a, iVal, q * 90, ACTORS[orbitIdx % 3], 0.62));
+                orbitIdx++;
+              }
+            });
+          });
+        }
+      }
+      rebuild();
+
+      document.getElementById('viz3b-i-slider').addEventListener('input', (e) => {
+        maxI = parseInt(e.target.value);
+        document.getElementById('viz3b-i-val').textContent = maxI + '\u00B0';
+        rebuild();
+      });
+      document.getElementById('viz3b-reset').addEventListener('click', () => {
+        maxI = 30; document.getElementById('viz3b-i-slider').value = 30;
+        document.getElementById('viz3b-i-val').textContent = '30\u00B0'; rebuild();
+      });
+    }
+
+    // ==== VIZ 3C: Omega distribution ====
+    {
+      const { scene, controls } = initScene('viz3c-canvas');
+      setupCTI('viz3c-wrap', controls);
+      const g = new THREE.Group(); scene.add(g);
+      let inc = 30, nOrbits = 4;
+
+      function rebuild() {
+        clearGroup(g);
+        SHELLS.forEach((a) => {
+          for (let k = 0; k < nOrbits; k++) {
+            const O = nOrbits > 1 ? (k / (nOrbits - 1)) * 360 : 0;
+            g.add(makeOrbit(a, inc, O, ACTORS[k % 3], 0.70));
+            if (inc > 1 && inc < 179)
+              g.add(makeOrbit(a, 180 - inc, O, ACTORS[k % 3], 0.48));
+          }
+        });
+      }
+      rebuild();
+
+      document.getElementById('viz3c-i-slider').addEventListener('input', (e) => {
+        inc = parseInt(e.target.value);
+        document.getElementById('viz3c-i-val').textContent = inc + '\u00B0'; rebuild();
+      });
+      document.getElementById('viz3c-n-slider').addEventListener('input', (e) => {
+        nOrbits = parseInt(e.target.value);
+        document.getElementById('viz3c-n-val').textContent = nOrbits; rebuild();
+      });
+      document.getElementById('viz3c-reset').addEventListener('click', () => {
+        inc = 30; nOrbits = 4;
+        document.getElementById('viz3c-i-slider').value = 30;
+        document.getElementById('viz3c-n-slider').value = 4;
+        document.getElementById('viz3c-i-val').textContent = '30\u00B0';
+        document.getElementById('viz3c-n-val').textContent = 4; rebuild();
+      });
+    }
+
+    // ==== VIZ 3D: True anomaly ====
+    {
+      const { scene, controls } = initScene('viz3d-canvas');
+      setupCTI('viz3d-wrap', controls);
+      // Two fixed orbit paths
+      const orbitDefs = [
+        { a: 0.42, i: 22, O: 0 },
+        { a: 0.70, i: 55, O: 110 }
+      ];
+      orbitDefs.forEach(o => scene.add(makeOrbit(o.a, o.i, o.O, 0x333344, 0.5)));
+
+      const SEG = 3; // degrees per segment
+      const N_SEG = 360 / SEG;
+      let fillDeg = 45;
+
+      // Pre-build all segment lines
+      const segLines = orbitDefs.map(o =>
+        Array.from({length: N_SEG}, (_, k) => {
+          const nu0 = k * SEG * DEG, nu1 = (k + 1) * SEG * DEG;
+          const pts = Array.from({length: 6}, (_, s) =>
+            orbitPt(o.a, o.i * DEG, o.O * DEG, nu0 + (nu1 - nu0) * s / 5));
+          const line = new THREE.Line(
+            new THREE.BufferGeometry().setFromPoints(pts),
+            new THREE.LineBasicMaterial({ color: ACTORS[k % 3], transparent: true, opacity: 0.92 })
+          );
+          line.visible = false;
+          scene.add(line);
+          return line;
+        })
+      );
+
+      function rebuild() {
+        const n = Math.floor(fillDeg / SEG);
+        segLines.forEach(segs => segs.forEach((l, k) => { l.visible = k < n; }));
+      }
+      rebuild();
+
+      document.getElementById('viz3d-fill-slider').addEventListener('input', (e) => {
+        fillDeg = parseInt(e.target.value);
+        document.getElementById('viz3d-fill-val').textContent = fillDeg + '\u00B0'; rebuild();
+      });
+      document.getElementById('viz3d-reset').addEventListener('click', () => {
+        fillDeg = 45; document.getElementById('viz3d-fill-slider').value = 45;
+        document.getElementById('viz3d-fill-val').textContent = '45\u00B0'; rebuild();
+      });
+    }
+
+    // ==== VIZ 3E: Random + Fibonacci ====
+    {
+      const { scene, controls } = initScene('viz3e-canvas', [2.0, 1.6, 2.5]);
+      setupCTI('viz3e-wrap', controls);
+      const g = new THREE.Group(); scene.add(g);
+      let scheme = 'fibonacci', N = 48;
+      let rngCache = [];
+
+      function genRandom(n) {
+        return Array.from({length: n}, (_, k) => ({
+          i: Math.acos(2 * Math.random() - 1) / DEG,
+          O: Math.random() * 360,
+          a: SHELLS[k % SHELLS.length]
+        }));
+      }
+      rngCache = genRandom(96);
+
+      function rebuild() {
+        clearGroup(g);
+        for (let k = 0; k < N; k++) {
+          let i, O, a = SHELLS[k % SHELLS.length];
+          if (scheme === 'fibonacci') {
+            const f = fibOrbit(k, N); i = f.i; O = f.O;
+          } else {
+            i = rngCache[k].i; O = rngCache[k].O;
+          }
+          g.add(makeOrbit(a, i, O, ACTORS[k % 3], 0.62));
+        }
+      }
+      rebuild();
+
+      document.getElementById('viz3e-rand-btn').addEventListener('click', () => {
+        if (scheme !== 'random') {
+          scheme = 'random'; rngCache = genRandom(96);
+          document.getElementById('viz3e-rand-btn').classList.add('active');
+          document.getElementById('viz3e-fib-btn').classList.remove('active');
+          rebuild();
+        }
+      });
+      document.getElementById('viz3e-fib-btn').addEventListener('click', () => {
+        scheme = 'fibonacci';
+        document.getElementById('viz3e-fib-btn').classList.add('active');
+        document.getElementById('viz3e-rand-btn').classList.remove('active');
+        rebuild();
+      });
+      document.getElementById('viz3e-n-slider').addEventListener('input', (e) => {
+        N = parseInt(e.target.value);
+        document.getElementById('viz3e-n-val').textContent = N; rebuild();
+      });
+      document.getElementById('viz3e-reset').addEventListener('click', () => {
+        scheme = 'fibonacci'; N = 48;
+        document.getElementById('viz3e-n-slider').value = 48;
+        document.getElementById('viz3e-n-val').textContent = 48;
+        document.getElementById('viz3e-fib-btn').classList.add('active');
+        document.getElementById('viz3e-rand-btn').classList.remove('active');
+        rebuild();
+      });
+    }
+
+    // ==== Animation loop ====
+    function animate() {
+      requestAnimationFrame(animate);
+      visibleSet.forEach(({ renderer, scene, camera, controls }) => {
+        controls.update();
+        renderer.render(scene, camera);
+      });
+    }
+    animate();
+  </script>
 
   <!-- =================== THREE.JS VISUALIZATION =================== -->
   <script type="importmap">
