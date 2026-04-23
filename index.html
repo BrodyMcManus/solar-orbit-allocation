@@ -1528,10 +1528,10 @@
       function rebuild() {
         clearGroup(g);
         for (let k = 0; k < N; k++) {
-          const f = fibOrbit(k, Math.max(N, 1));
+          const f = fibOrbit(k, 24); // fixed N so orientations don't shift as slider moves
           const a = mode === 'fixed'
             ? 0.5
-            : (N <= 1 ? 0.55 : 0.25 + k * 0.60 / (N - 1));
+            : 0.25 + k * (0.60 / 23); // fixed step so existing shells don't shift
           g.add(makeOrbit(a, f.i, f.O, ACTORS[k % 3], 0.75));
         }
       }
