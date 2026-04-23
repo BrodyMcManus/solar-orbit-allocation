@@ -789,10 +789,11 @@
         <em>e</em> increases the Sun shifts toward one focus and captors spend
         more time near the far end of their path. Argument of periapsis
         (&omega;) rotates the ellipse within its orbital plane, controlling
-        which direction the nearest point faces. With multiple orbits each
-        offset by 15&deg;, they fan into a rosette &mdash; but only when
-        <em>e</em> &gt; 0, making it clear that &omega; is meaningless for
-        circular orbits.
+        which direction the nearest point faces. Each orbit below is placed
+        via a Fibonacci lattice (varying <em>i</em> and &Omega;) and assigned
+        an additional 15&deg; increment of &omega;. The periapsis marker on
+        each orbit shows where that orbit comes closest to the Sun &mdash; and
+        how &omega; becomes meaningful only when <em>e</em> &gt; 0.
       </p>
 
       <!-- Viz 3G -->
@@ -825,14 +826,14 @@
               <div class="control-name">Total orbits</div>
               <div class="control-value" id="viz3g-n-val">1</div>
             </div>
-            <div class="control-desc">Each new orbit increments &omega; by 15&deg;. With <em>e</em> &gt; 0 they spread into a rosette.</div>
+            <div class="control-desc">Each new orbit is placed by Fibonacci lattice (<em>i</em>, &Omega;) with &omega; incrementing by 15&deg;.</div>
             <div class="control-row">
               <input type="range" id="viz3g-n-slider" min="1" max="24" step="1" value="1">
             </div>
           </div>
         </div>
         <div class="reset-row">
-          <span>Eccentricity &amp; &omega; &mdash; fixed <em>a</em>, <em>i</em>, &Omega;</span>
+          <span>Eccentricity &amp; &omega; &mdash; fixed <em>a</em>, Fibonacci <em>i</em> &amp; &Omega;</span>
           <button class="reset-btn" id="viz3g-reset">Reset</button>
         </div>
       </div>
@@ -1708,12 +1709,12 @@
       const { scene, controls } = initScene('viz3g-canvas', [1.8, 1.4, 2.2]);
       setupCTI('viz3g-wrap', controls);
       const g = new THREE.Group(); scene.add(g);
-      const A_FIXED = 0.55, I_FIXED = 20, O_FIXED = 0;
+      const A_FIXED = 0.55;
       let E = 0.40, N = 1;
 
-      function periapsisPt(e, w_deg) {
+      function periapsisPt(e, i_deg, O_deg, w_deg) {
         const r = A_FIXED * (1 - e * e) / (1 + e);
-        const i = I_FIXED * DEG, O = O_FIXED * DEG, w = w_deg * DEG;
+        const i = i_deg * DEG, O = O_deg * DEG, w = w_deg * DEG;
         const cosO = Math.cos(O), sinO = Math.sin(O);
         const cosw = Math.cos(w), sinw = Math.sin(w);
         const cosi = Math.cos(i), sini = Math.sin(i);
@@ -1727,10 +1728,11 @@
       function rebuild() {
         clearGroup(g);
         for (let k = 0; k < N; k++) {
+          const { i, O } = fibOrbit(k, 24);
           const w = k * 15;
           const color = ACTORS[k % 3];
-          g.add(makeOrbitElliptic(A_FIXED, E, I_FIXED, O_FIXED, w, color, 0.72));
-          const pt = periapsisPt(E, w);
+          g.add(makeOrbitElliptic(A_FIXED, E, i, O, w, color, 0.72));
+          const pt = periapsisPt(E, i, O, w);
           const dot = new THREE.Mesh(
             new THREE.SphereGeometry(0.018, 8, 8),
             new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9 })
