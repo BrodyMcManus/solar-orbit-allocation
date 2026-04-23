@@ -1719,7 +1719,7 @@
         const cosi = Math.cos(i), sini = Math.sin(i);
         const xo = r;
         const x = cosw * xo;
-        const y = 0;
+        const y = sinw * cosi * xo;
         const z = sinw * sini * xo;
         return new THREE.Vector3(x, z, -y);
       }
