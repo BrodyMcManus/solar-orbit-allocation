@@ -665,35 +665,25 @@
         <div class="controls-grid">
           <div class="control">
             <div class="control-head"><div class="control-name">Mode</div></div>
-            <div class="control-desc">Single shell (fixed <em>a</em>) or expanding shells (variable <em>a</em>).</div>
+            <div class="control-desc">Single shell (fixed <em>a</em>) or one orbit per shell, expanding outward (variable <em>a</em>).</div>
             <div class="control-row" style="gap:0.4rem">
               <button class="sweep-btn active" id="viz3a-fixed-btn">Fixed <em>a</em></button>
               <button class="sweep-btn" id="viz3a-var-btn">Variable <em>a</em></button>
             </div>
           </div>
-          <div class="control" id="viz3a-shell-ctrl" style="display:none">
-            <div class="control-head">
-              <div class="control-name">Max radius</div>
-              <div class="control-value" id="viz3a-shell-val">0.25 AU</div>
-            </div>
-            <div class="control-desc">Expand outward to add more shells.</div>
-            <div class="control-row">
-              <input type="range" id="viz3a-shell-slider" min="0" max="4" step="1" value="0">
-            </div>
-          </div>
           <div class="control">
             <div class="control-head">
-              <div class="control-name">Orbits per shell</div>
-              <div class="control-value" id="viz3a-n-val">12</div>
+              <div class="control-name">Total orbits</div>
+              <div class="control-value" id="viz3a-n-val">6</div>
             </div>
-            <div class="control-desc">Orbit rings shown on each shell, distributed by Fibonacci lattice.</div>
+            <div class="control-desc">In fixed mode all orbits share one shell; in variable mode each gets its own shell at a larger radius.</div>
             <div class="control-row">
-              <input type="range" id="viz3a-n-slider" min="4" max="32" step="4" value="12">
+              <input type="range" id="viz3a-n-slider" min="1" max="24" step="1" value="6">
             </div>
           </div>
         </div>
         <div class="reset-row">
-          <span>Shell packing &mdash; <em>e</em> = 0</span>
+          <span>Shell packing</span>
           <button class="reset-btn" id="viz3a-reset">Reset</button>
         </div>
       </div>
@@ -730,16 +720,16 @@
           <div class="control" style="grid-column:1/-1">
             <div class="control-head">
               <div class="control-name"><span class="control-symbol">i</span>Max inclination</div>
-              <div class="control-value" id="viz3b-i-val">30&deg;</div>
+              <div class="control-value" id="viz3b-i-val">0&deg;</div>
             </div>
-            <div class="control-desc">Adds orbital bands at each 15&deg; step up to this angle (and their mirror inclinations).</div>
+            <div class="control-desc">Each 3&deg; step adds one orbit at a slightly larger radius, cycling actors A &rarr; B &rarr; C.</div>
             <div class="control-row">
-              <input type="range" id="viz3b-i-slider" min="0" max="90" step="15" value="30">
+              <input type="range" id="viz3b-i-slider" min="0" max="90" step="3" value="0">
             </div>
           </div>
         </div>
         <div class="reset-row">
-          <span>Inclination bands &mdash; variable <em>a</em></span>
+          <span>Inclination bands &mdash; <em>e</em> = 0, &Omega; = 0&deg;</span>
           <button class="reset-btn" id="viz3b-reset">Reset</button>
         </div>
       </div>
@@ -771,24 +761,24 @@
               <div class="control-name"><span class="control-symbol">i</span>Inclination</div>
               <div class="control-value" id="viz3c-i-val">30&deg;</div>
             </div>
-            <div class="control-desc">The orbital band to populate.</div>
+            <div class="control-desc">Shared inclination of all orbits shown.</div>
             <div class="control-row">
-              <input type="range" id="viz3c-i-slider" min="5" max="85" step="5" value="30">
+              <input type="range" id="viz3c-i-slider" min="0" max="90" step="5" value="30">
             </div>
           </div>
           <div class="control">
             <div class="control-head">
-              <div class="control-name"><span class="control-symbol">&Omega;</span>Orbits in band</div>
-              <div class="control-value" id="viz3c-n-val">4</div>
+              <div class="control-name"><span class="control-symbol">&Omega;</span>Total orbits</div>
+              <div class="control-value" id="viz3c-n-val">1</div>
             </div>
-            <div class="control-desc">Orbits evenly spaced in &Omega; from 0&deg; to 360&deg;, shown at each shell.</div>
+            <div class="control-desc">Each step adds one orbit at a slightly larger radius with the next &Omega; value, cycling actors.</div>
             <div class="control-row">
-              <input type="range" id="viz3c-n-slider" min="1" max="36" step="1" value="4">
+              <input type="range" id="viz3c-n-slider" min="1" max="36" step="1" value="1">
             </div>
           </div>
         </div>
         <div class="reset-row">
-          <span>&Omega; distribution &mdash; variable <em>a</em></span>
+          <span>&Omega; distribution &mdash; fixed <em>i</em></span>
           <button class="reset-btn" id="viz3c-reset">Reset</button>
         </div>
       </div>
@@ -796,7 +786,7 @@
       <h3>True anomaly: dividing a single orbit between actors</h3>
       <p>
         Even a single orbital path can host many captors, staggered in position along
-        it. The 360&deg; of each orbit are divided into 3&deg; segments below;
+        it. The 360&deg; of each orbit are divided into 6&deg; segments below;
         as the slider fills them in, three actors share each path in sequence.
       </p>
 
@@ -820,9 +810,9 @@
               <div class="control-name"><span class="control-symbol">&nu;</span>Fill</div>
               <div class="control-value" id="viz3d-fill-val">45&deg;</div>
             </div>
-            <div class="control-desc">Fraction of each orbit filled with captors, split evenly between three actors in 3&deg; segments.</div>
+            <div class="control-desc">Fraction of each orbit filled with captors, split evenly between three actors in 6&deg; segments.</div>
             <div class="control-row">
-              <input type="range" id="viz3d-fill-slider" min="0" max="360" step="3" value="45">
+              <input type="range" id="viz3d-fill-slider" min="0" max="360" step="6" value="48">
             </div>
           </div>
         </div>
@@ -832,14 +822,12 @@
         </div>
       </div>
 
-      <h3>Full allocation: random and Fibonacci</h3>
+      <h3>Structured allocation: Fibonacci lattice</h3>
       <p>
-        Combining variable radius, inclination, and &Omega; gives a
-        three-dimensional allocation problem. Two natural starting points are a
-        purely random draw and a Fibonacci (golden-angle) lattice, which spreads
-        orbits near-uniformly across all possible orientations. The Fibonacci
-        scheme minimises clustering but imposes a fixed ordering &mdash; itself a
-        governance choice.
+        When varying radius, inclination, and &Omega; together, a Fibonacci (golden-angle)
+        lattice distributes orbits near-uniformly across the sphere of possible orientations
+        &mdash; minimising clustering without any explicit coordination between actors.
+        The ordering is fixed by the lattice, which is itself a governance choice.
       </p>
 
       <!-- Viz 3E -->
@@ -856,28 +844,60 @@
           <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
         </div>
         <div class="controls-grid">
-          <div class="control">
-            <div class="control-head"><div class="control-name">Scheme</div></div>
-            <div class="control-desc">How orbits are distributed across radius, inclination, and &Omega;.</div>
-            <div class="control-row" style="gap:0.4rem">
-              <button class="sweep-btn" id="viz3e-rand-btn">Random</button>
-              <button class="sweep-btn active" id="viz3e-fib-btn">Fibonacci</button>
-            </div>
-          </div>
-          <div class="control">
+          <div class="control" style="grid-column:1/-1">
             <div class="control-head">
-              <div class="control-name">N orbits</div>
-              <div class="control-value" id="viz3e-n-val">48</div>
+              <div class="control-name">Total orbits</div>
+              <div class="control-value" id="viz3e-n-val">1</div>
             </div>
-            <div class="control-desc">Total orbital paths to allocate across all shells.</div>
+            <div class="control-desc">Orbits added one at a time, distributed by Fibonacci lattice across <em>a</em>, <em>i</em>, and &Omega;.</div>
             <div class="control-row">
-              <input type="range" id="viz3e-n-slider" min="6" max="96" step="6" value="48">
+              <input type="range" id="viz3e-n-slider" min="1" max="24" step="1" value="1">
             </div>
           </div>
         </div>
         <div class="reset-row">
-          <span>Full allocation &mdash; variable <em>a</em>, <em>i</em>, &Omega;</span>
+          <span>Structured allocation &mdash; variable <em>a</em>, <em>i</em>, &Omega;</span>
           <button class="reset-btn" id="viz3e-reset">Reset</button>
+        </div>
+      </div>
+
+      <h3>Unstructured allocation: fully random</h3>
+      <p>
+        All five orbital elements &mdash; radius (<em>a</em>), eccentricity (<em>e</em>),
+        inclination (<em>i</em>), longitude of ascending node (&Omega;), and argument of
+        periapsis (&omega;) &mdash; are drawn independently at random. Unlike the structured
+        scheme above, no coordination is imposed; each orbit is assigned without regard
+        to the others.
+      </p>
+
+      <!-- Viz 3F -->
+      <div class="viz-wrap" id="viz3f-wrap">
+        <div class="viz-canvas-container" id="viz3f-container">
+          <canvas id="viz3f-canvas"></canvas>
+          <div class="viz-overlay" id="viz3f-overlay"><div class="viz-overlay-msg">Click to interact</div></div>
+          <div class="viz-legend">
+            <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
+            <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Actor A</div>
+            <div class="legend-item"><span class="swatch" style="background:#4fa3d1"></span>Actor B</div>
+            <div class="legend-item"><span class="swatch" style="background:#81c47e"></span>Actor C</div>
+          </div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+        <div class="controls-grid">
+          <div class="control" style="grid-column:1/-1">
+            <div class="control-head">
+              <div class="control-name">Total orbits</div>
+              <div class="control-value" id="viz3f-n-val">1</div>
+            </div>
+            <div class="control-desc">Orbits added one at a time. All five elements drawn at random for each.</div>
+            <div class="control-row">
+              <input type="range" id="viz3f-n-slider" min="1" max="50" step="1" value="1">
+            </div>
+          </div>
+        </div>
+        <div class="reset-row">
+          <span>Unstructured allocation &mdash; all elements random</span>
+          <button class="reset-btn" id="viz3f-reset">Reset</button>
         </div>
       </div>
 
@@ -1501,51 +1521,41 @@
       const { scene, controls } = initScene('viz3a-canvas', [1.6, 1.2, 2.0]);
       setupCTI('viz3a-wrap', controls);
       const g = new THREE.Group(); scene.add(g);
-      let mode = 'fixed', nPerShell = 12, shellIdx = 0;
-      const shellLabels = ['0.25 AU','0.40 AU','0.55 AU','0.70 AU','0.85 AU'];
+      let mode = 'fixed', N = 6;
+      const fixedBtn = document.getElementById('viz3a-fixed-btn');
+      const varBtn   = document.getElementById('viz3a-var-btn');
 
       function rebuild() {
         clearGroup(g);
-        const shells = mode === 'fixed' ? [0.5] : SHELLS.slice(0, shellIdx + 1);
-        shells.forEach((a) => {
-          for (let k = 0; k < nPerShell; k++) {
-            const f = fibOrbit(k, nPerShell);
-            g.add(makeOrbit(a, f.i, f.O, ACTORS[k % 3], mode === 'fixed' ? 0.78 : 0.62));
-          }
-        });
+        for (let k = 0; k < N; k++) {
+          const f = fibOrbit(k, Math.max(N, 1));
+          const a = mode === 'fixed'
+            ? 0.5
+            : (N <= 1 ? 0.55 : 0.25 + k * 0.60 / (N - 1));
+          g.add(makeOrbit(a, f.i, f.O, ACTORS[k % 3], 0.75));
+        }
       }
       rebuild();
 
-      const fixedBtn = document.getElementById('viz3a-fixed-btn');
-      const varBtn   = document.getElementById('viz3a-var-btn');
-      const shellCtrl = document.getElementById('viz3a-shell-ctrl');
-
       fixedBtn.addEventListener('click', () => {
         mode = 'fixed'; fixedBtn.classList.add('active'); varBtn.classList.remove('active');
-        shellCtrl.style.display = 'none'; rebuild();
+        rebuild();
       });
       varBtn.addEventListener('click', () => {
         mode = 'variable'; varBtn.classList.add('active'); fixedBtn.classList.remove('active');
-        shellCtrl.style.display = ''; rebuild();
-      });
-      document.getElementById('viz3a-shell-slider').addEventListener('input', (e) => {
-        shellIdx = parseInt(e.target.value);
-        document.getElementById('viz3a-shell-val').textContent = shellLabels[shellIdx];
         rebuild();
       });
       document.getElementById('viz3a-n-slider').addEventListener('input', (e) => {
-        nPerShell = parseInt(e.target.value);
-        document.getElementById('viz3a-n-val').textContent = nPerShell;
+        N = parseInt(e.target.value);
+        document.getElementById('viz3a-n-val').textContent = N;
         rebuild();
       });
       document.getElementById('viz3a-reset').addEventListener('click', () => {
-        mode = 'fixed'; nPerShell = 12; shellIdx = 0;
-        document.getElementById('viz3a-n-slider').value = 12;
-        document.getElementById('viz3a-shell-slider').value = 0;
-        document.getElementById('viz3a-n-val').textContent = 12;
-        document.getElementById('viz3a-shell-val').textContent = shellLabels[0];
+        mode = 'fixed'; N = 6;
+        document.getElementById('viz3a-n-slider').value = 6;
+        document.getElementById('viz3a-n-val').textContent = 6;
         fixedBtn.classList.add('active'); varBtn.classList.remove('active');
-        shellCtrl.style.display = 'none'; rebuild();
+        rebuild();
       });
     }
 
@@ -1554,21 +1564,18 @@
       const { scene, controls } = initScene('viz3b-canvas');
       setupCTI('viz3b-wrap', controls);
       const g = new THREE.Group(); scene.add(g);
-      let maxI = 30;
+      let maxI = 0;
+      const I_STEP = 3, MAX_B = Math.floor(90 / 3) + 1; // 31 orbits
+
+      function orbitA_b(k) {
+        return MAX_B <= 1 ? 0.55 : 0.25 + k * 0.60 / (MAX_B - 1);
+      }
 
       function rebuild() {
         clearGroup(g);
-        let orbitIdx = 0;
-        for (let inc = 0; inc <= maxI; inc += 15) {
-          const iVals = inc === 0 ? [0] : [inc, 180 - inc];
-          iVals.forEach(iVal => {
-            SHELLS.forEach((a) => {
-              for (let q = 0; q < 4; q++) {
-                g.add(makeOrbit(a, iVal, q * 90, ACTORS[orbitIdx % 3], 0.62));
-                orbitIdx++;
-              }
-            });
-          });
+        const n = Math.floor(maxI / I_STEP) + 1;
+        for (let k = 0; k < n; k++) {
+          g.add(makeOrbit(orbitA_b(k), k * I_STEP, 0, ACTORS[k % 3], 0.78));
         }
       }
       rebuild();
@@ -1579,8 +1586,8 @@
         rebuild();
       });
       document.getElementById('viz3b-reset').addEventListener('click', () => {
-        maxI = 30; document.getElementById('viz3b-i-slider').value = 30;
-        document.getElementById('viz3b-i-val').textContent = '30\u00B0'; rebuild();
+        maxI = 0; document.getElementById('viz3b-i-slider').value = 0;
+        document.getElementById('viz3b-i-val').textContent = '0\u00B0'; rebuild();
       });
     }
 
@@ -1589,18 +1596,18 @@
       const { scene, controls } = initScene('viz3c-canvas');
       setupCTI('viz3c-wrap', controls);
       const g = new THREE.Group(); scene.add(g);
-      let inc = 30, nOrbits = 4;
+      let inc = 30, nOrbits = 1;
+      const O_STEP = 10, MAX_C = 36;
+
+      function orbitA_c(k) {
+        return MAX_C <= 1 ? 0.55 : 0.25 + k * 0.60 / (MAX_C - 1);
+      }
 
       function rebuild() {
         clearGroup(g);
-        SHELLS.forEach((a) => {
-          for (let k = 0; k < nOrbits; k++) {
-            const O = nOrbits > 1 ? (k / (nOrbits - 1)) * 360 : 0;
-            g.add(makeOrbit(a, inc, O, ACTORS[k % 3], 0.70));
-            if (inc > 1 && inc < 179)
-              g.add(makeOrbit(a, 180 - inc, O, ACTORS[k % 3], 0.48));
-          }
-        });
+        for (let k = 0; k < nOrbits; k++) {
+          g.add(makeOrbit(orbitA_c(k), inc, k * O_STEP, ACTORS[k % 3], 0.78));
+        }
       }
       rebuild();
 
@@ -1613,11 +1620,11 @@
         document.getElementById('viz3c-n-val').textContent = nOrbits; rebuild();
       });
       document.getElementById('viz3c-reset').addEventListener('click', () => {
-        inc = 30; nOrbits = 4;
+        inc = 30; nOrbits = 1;
         document.getElementById('viz3c-i-slider').value = 30;
-        document.getElementById('viz3c-n-slider').value = 4;
+        document.getElementById('viz3c-n-slider').value = 1;
         document.getElementById('viz3c-i-val').textContent = '30\u00B0';
-        document.getElementById('viz3c-n-val').textContent = 4; rebuild();
+        document.getElementById('viz3c-n-val').textContent = 1; rebuild();
       });
     }
 
@@ -1630,21 +1637,21 @@
         { a: 0.42, i: 22, O: 0 },
         { a: 0.70, i: 55, O: 110 }
       ];
-      orbitDefs.forEach(o => scene.add(makeOrbit(o.a, o.i, o.O, 0x333344, 0.5)));
+      orbitDefs.forEach(o => scene.add(makeOrbit(o.a, o.i, o.O, 0x44445a, 0.65)));
 
-      const SEG = 3; // degrees per segment
+      const SEG = 6; // degrees per segment
       const N_SEG = 360 / SEG;
-      let fillDeg = 45;
+      let fillDeg = 48;
 
       // Pre-build all segment lines
       const segLines = orbitDefs.map(o =>
         Array.from({length: N_SEG}, (_, k) => {
           const nu0 = k * SEG * DEG, nu1 = (k + 1) * SEG * DEG;
-          const pts = Array.from({length: 6}, (_, s) =>
-            orbitPt(o.a, o.i * DEG, o.O * DEG, nu0 + (nu1 - nu0) * s / 5));
+          const pts = Array.from({length: 8}, (_, s) =>
+            orbitPt(o.a, o.i * DEG, o.O * DEG, nu0 + (nu1 - nu0) * s / 7));
           const line = new THREE.Line(
             new THREE.BufferGeometry().setFromPoints(pts),
-            new THREE.LineBasicMaterial({ color: ACTORS[k % 3], transparent: true, opacity: 0.92 })
+            new THREE.LineBasicMaterial({ color: ACTORS[k % 3], transparent: true, opacity: 0.95 })
           );
           line.visible = false;
           scene.add(line);
@@ -1663,66 +1670,95 @@
         document.getElementById('viz3d-fill-val').textContent = fillDeg + '\u00B0'; rebuild();
       });
       document.getElementById('viz3d-reset').addEventListener('click', () => {
-        fillDeg = 45; document.getElementById('viz3d-fill-slider').value = 45;
-        document.getElementById('viz3d-fill-val').textContent = '45\u00B0'; rebuild();
+        fillDeg = 48; document.getElementById('viz3d-fill-slider').value = 48;
+        document.getElementById('viz3d-fill-val').textContent = '48\u00B0'; rebuild();
       });
     }
 
-    // ==== VIZ 3E: Random + Fibonacci ====
+    // ==== VIZ 3E: Structured allocation (Fibonacci) ====
     {
       const { scene, controls } = initScene('viz3e-canvas', [2.0, 1.6, 2.5]);
       setupCTI('viz3e-wrap', controls);
       const g = new THREE.Group(); scene.add(g);
-      let scheme = 'fibonacci', N = 48;
-      let rngCache = [];
-
-      function genRandom(n) {
-        return Array.from({length: n}, (_, k) => ({
-          i: Math.acos(2 * Math.random() - 1) / DEG,
-          O: Math.random() * 360,
-          a: SHELLS[k % SHELLS.length]
-        }));
-      }
-      rngCache = genRandom(96);
+      let N = 1;
 
       function rebuild() {
         clearGroup(g);
         for (let k = 0; k < N; k++) {
-          let i, O, a = SHELLS[k % SHELLS.length];
-          if (scheme === 'fibonacci') {
-            const f = fibOrbit(k, N); i = f.i; O = f.O;
-          } else {
-            i = rngCache[k].i; O = rngCache[k].O;
-          }
-          g.add(makeOrbit(a, i, O, ACTORS[k % 3], 0.62));
+          const f = fibOrbit(k, Math.max(N, 1));
+          g.add(makeOrbit(SHELLS[k % SHELLS.length], f.i, f.O, ACTORS[k % 3], 0.72));
         }
       }
       rebuild();
 
-      document.getElementById('viz3e-rand-btn').addEventListener('click', () => {
-        if (scheme !== 'random') {
-          scheme = 'random'; rngCache = genRandom(96);
-          document.getElementById('viz3e-rand-btn').classList.add('active');
-          document.getElementById('viz3e-fib-btn').classList.remove('active');
-          rebuild();
-        }
-      });
-      document.getElementById('viz3e-fib-btn').addEventListener('click', () => {
-        scheme = 'fibonacci';
-        document.getElementById('viz3e-fib-btn').classList.add('active');
-        document.getElementById('viz3e-rand-btn').classList.remove('active');
-        rebuild();
-      });
       document.getElementById('viz3e-n-slider').addEventListener('input', (e) => {
         N = parseInt(e.target.value);
         document.getElementById('viz3e-n-val').textContent = N; rebuild();
       });
       document.getElementById('viz3e-reset').addEventListener('click', () => {
-        scheme = 'fibonacci'; N = 48;
-        document.getElementById('viz3e-n-slider').value = 48;
-        document.getElementById('viz3e-n-val').textContent = 48;
-        document.getElementById('viz3e-fib-btn').classList.add('active');
-        document.getElementById('viz3e-rand-btn').classList.remove('active');
+        N = 1;
+        document.getElementById('viz3e-n-slider').value = 1;
+        document.getElementById('viz3e-n-val').textContent = 1;
+        rebuild();
+      });
+    }
+
+    // ==== VIZ 3F: Unstructured allocation (fully random) ====
+    {
+      const { scene, controls } = initScene('viz3f-canvas', [2.0, 1.6, 2.5]);
+      setupCTI('viz3f-wrap', controls);
+      const g = new THREE.Group(); scene.add(g);
+      let N = 1;
+
+      function makeOrbitElliptic(a, e, i_deg, O_deg, w_deg, color, opacity) {
+        const i = i_deg * DEG, O = O_deg * DEG, w = w_deg * DEG;
+        const cosO = Math.cos(O), sinO = Math.sin(O);
+        const cosw = Math.cos(w), sinw = Math.sin(w);
+        const cosi = Math.cos(i), sini = Math.sin(i);
+        const pts = Array.from({length: 129}, (_, k) => {
+          const nu = k / 128 * TAU;
+          const r = a * (1 - e * e) / (1 + e * Math.cos(nu));
+          const xo = r * Math.cos(nu), yo = r * Math.sin(nu);
+          const x = (cosO*cosw - sinO*sinw*cosi)*xo + (-cosO*sinw - sinO*cosw*cosi)*yo;
+          const y = (sinO*cosw + cosO*sinw*cosi)*xo + (-sinO*sinw + cosO*cosw*cosi)*yo;
+          const z = (sinw*sini)*xo + (cosw*sini)*yo;
+          return new THREE.Vector3(x, z, -y);
+        });
+        return new THREE.Line(
+          new THREE.BufferGeometry().setFromPoints(pts),
+          new THREE.LineBasicMaterial({ color, transparent: true, opacity })
+        );
+      }
+
+      let rngCache = [];
+      function genRandom(n) {
+        return Array.from({length: n}, () => ({
+          a: 0.2 + Math.random() * 0.7,
+          e: Math.random() * 0.6,
+          i: Math.random() * 180,
+          O: Math.random() * 360,
+          w: Math.random() * 360
+        }));
+      }
+      rngCache = genRandom(50);
+
+      function rebuild() {
+        clearGroup(g);
+        for (let k = 0; k < N; k++) {
+          const r = rngCache[k];
+          g.add(makeOrbitElliptic(r.a, r.e, r.i, r.O, r.w, ACTORS[k % 3], 0.70));
+        }
+      }
+      rebuild();
+
+      document.getElementById('viz3f-n-slider').addEventListener('input', (e) => {
+        N = parseInt(e.target.value);
+        document.getElementById('viz3f-n-val').textContent = N; rebuild();
+      });
+      document.getElementById('viz3f-reset').addEventListener('click', () => {
+        N = 1; rngCache = genRandom(50);
+        document.getElementById('viz3f-n-slider').value = 1;
+        document.getElementById('viz3f-n-val').textContent = 1;
         rebuild();
       });
     }
