@@ -783,6 +783,60 @@
         </div>
       </div>
 
+      <h3>Eccentricity and argument of periapsis: orbit shape and orientation</h3>
+      <p>
+        Eccentricity (<em>e</em>) stretches a circular orbit into an ellipse; as
+        <em>e</em> increases the Sun shifts toward one focus and captors spend
+        more time near the far end of their path. Argument of periapsis
+        (&omega;) rotates the ellipse within its orbital plane, controlling
+        which direction the nearest point faces. With multiple orbits each
+        offset by 15&deg;, they fan into a rosette &mdash; but only when
+        <em>e</em> &gt; 0, making it clear that &omega; is meaningless for
+        circular orbits.
+      </p>
+
+      <!-- Viz 3G -->
+      <div class="viz-wrap" id="viz3g-wrap">
+        <div class="viz-canvas-container" id="viz3g-container">
+          <canvas id="viz3g-canvas"></canvas>
+          <div class="viz-overlay" id="viz3g-overlay"><div class="viz-overlay-msg">Click to interact</div></div>
+          <div class="viz-legend">
+            <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
+            <div class="legend-item"><span class="swatch line" style="background:#e07a5f"></span>Actor A</div>
+            <div class="legend-item"><span class="swatch line" style="background:#4fa3d1"></span>Actor B</div>
+            <div class="legend-item"><span class="swatch line" style="background:#81c47e"></span>Actor C</div>
+            <div class="legend-item"><span class="swatch" style="background:#ffffff; opacity:0.55; border-radius:50%"></span>Periapsis</div>
+          </div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+        <div class="controls-grid">
+          <div class="control">
+            <div class="control-head">
+              <div class="control-name">Eccentricity <em>e</em></div>
+              <div class="control-value" id="viz3g-e-val">0.40</div>
+            </div>
+            <div class="control-desc">Stretches each orbit from a circle (<em>e</em> = 0) toward an elongated ellipse.</div>
+            <div class="control-row">
+              <input type="range" id="viz3g-e-slider" min="0" max="0.75" step="0.05" value="0.40">
+            </div>
+          </div>
+          <div class="control">
+            <div class="control-head">
+              <div class="control-name">Total orbits</div>
+              <div class="control-value" id="viz3g-n-val">1</div>
+            </div>
+            <div class="control-desc">Each new orbit increments &omega; by 15&deg;. With <em>e</em> &gt; 0 they spread into a rosette.</div>
+            <div class="control-row">
+              <input type="range" id="viz3g-n-slider" min="1" max="24" step="1" value="1">
+            </div>
+          </div>
+        </div>
+        <div class="reset-row">
+          <span>Eccentricity &amp; &omega; &mdash; fixed <em>a</em>, <em>i</em>, &Omega;</span>
+          <button class="reset-btn" id="viz3g-reset">Reset</button>
+        </div>
+      </div>
+
       <h3>True anomaly: dividing a single orbit between actors</h3>
       <p>
         Even a single orbital path can host many captors, staggered in position along
@@ -1435,6 +1489,27 @@
       };
     }
 
+    // ---- Elliptic orbit geometry (full Keplerian elements) ----
+    function makeOrbitElliptic(a, e, i_deg, O_deg, w_deg, color, opacity = 0.72) {
+      const i = i_deg * DEG, O = O_deg * DEG, w = w_deg * DEG;
+      const cosO = Math.cos(O), sinO = Math.sin(O);
+      const cosw = Math.cos(w), sinw = Math.sin(w);
+      const cosi = Math.cos(i), sini = Math.sin(i);
+      const pts = Array.from({length: 129}, (_, k) => {
+        const nu = k / 128 * TAU;
+        const r = a * (1 - e * e) / (1 + e * Math.cos(nu));
+        const xo = r * Math.cos(nu), yo = r * Math.sin(nu);
+        const x = (cosO*cosw - sinO*sinw*cosi)*xo + (-cosO*sinw - sinO*cosw*cosi)*yo;
+        const y = (sinO*cosw + cosO*sinw*cosi)*xo + (-sinO*sinw + cosO*cosw*cosi)*yo;
+        const z = (sinw*sini)*xo + (cosw*sini)*yo;
+        return new THREE.Vector3(x, z, -y);
+      });
+      return new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({ color, transparent: true, opacity })
+      );
+    }
+
     // ---- Scene factory ----
     const allScenes = [];
     const visibleSet = new Set();
@@ -1628,6 +1703,61 @@
       });
     }
 
+    // ==== VIZ 3G: Eccentricity + argument of periapsis ====
+    {
+      const { scene, controls } = initScene('viz3g-canvas', [1.8, 1.4, 2.2]);
+      setupCTI('viz3g-wrap', controls);
+      const g = new THREE.Group(); scene.add(g);
+      const A_FIXED = 0.55, I_FIXED = 20, O_FIXED = 0;
+      let E = 0.40, N = 1;
+
+      function periapsisPt(e, w_deg) {
+        const r = A_FIXED * (1 - e * e) / (1 + e);
+        const i = I_FIXED * DEG, O = O_FIXED * DEG, w = w_deg * DEG;
+        const cosO = Math.cos(O), sinO = Math.sin(O);
+        const cosw = Math.cos(w), sinw = Math.sin(w);
+        const cosi = Math.cos(i), sini = Math.sin(i);
+        const xo = r;
+        const x = (cosO * cosw - sinO * sinw * cosi) * xo;
+        const y = (sinO * cosw + cosO * sinw * cosi) * xo;
+        const z = (sinw * sini) * xo;
+        return new THREE.Vector3(x, z, -y);
+      }
+
+      function rebuild() {
+        clearGroup(g);
+        for (let k = 0; k < N; k++) {
+          const w = k * 15;
+          const color = ACTORS[k % 3];
+          g.add(makeOrbitElliptic(A_FIXED, E, I_FIXED, O_FIXED, w, color, 0.72));
+          const pt = periapsisPt(E, w);
+          const dot = new THREE.Mesh(
+            new THREE.SphereGeometry(0.018, 8, 8),
+            new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9 })
+          );
+          dot.position.copy(pt);
+          g.add(dot);
+        }
+      }
+      rebuild();
+
+      document.getElementById('viz3g-e-slider').addEventListener('input', (ev) => {
+        E = parseFloat(ev.target.value);
+        document.getElementById('viz3g-e-val').textContent = E.toFixed(2); rebuild();
+      });
+      document.getElementById('viz3g-n-slider').addEventListener('input', (ev) => {
+        N = parseInt(ev.target.value);
+        document.getElementById('viz3g-n-val').textContent = N; rebuild();
+      });
+      document.getElementById('viz3g-reset').addEventListener('click', () => {
+        E = 0.40; N = 1;
+        document.getElementById('viz3g-e-slider').value = 0.40;
+        document.getElementById('viz3g-e-val').textContent = '0.40';
+        document.getElementById('viz3g-n-slider').value = 1;
+        document.getElementById('viz3g-n-val').textContent = 1; rebuild();
+      });
+    }
+
     // ==== VIZ 3D: True anomaly ====
     {
       const { scene, controls } = initScene('viz3d-canvas');
@@ -1709,26 +1839,6 @@
       setupCTI('viz3f-wrap', controls);
       const g = new THREE.Group(); scene.add(g);
       let N = 1;
-
-      function makeOrbitElliptic(a, e, i_deg, O_deg, w_deg, color, opacity) {
-        const i = i_deg * DEG, O = O_deg * DEG, w = w_deg * DEG;
-        const cosO = Math.cos(O), sinO = Math.sin(O);
-        const cosw = Math.cos(w), sinw = Math.sin(w);
-        const cosi = Math.cos(i), sini = Math.sin(i);
-        const pts = Array.from({length: 129}, (_, k) => {
-          const nu = k / 128 * TAU;
-          const r = a * (1 - e * e) / (1 + e * Math.cos(nu));
-          const xo = r * Math.cos(nu), yo = r * Math.sin(nu);
-          const x = (cosO*cosw - sinO*sinw*cosi)*xo + (-cosO*sinw - sinO*cosw*cosi)*yo;
-          const y = (sinO*cosw + cosO*sinw*cosi)*xo + (-sinO*sinw + cosO*cosw*cosi)*yo;
-          const z = (sinw*sini)*xo + (cosw*sini)*yo;
-          return new THREE.Vector3(x, z, -y);
-        });
-        return new THREE.Line(
-          new THREE.BufferGeometry().setFromPoints(pts),
-          new THREE.LineBasicMaterial({ color, transparent: true, opacity })
-        );
-      }
 
       let rngCache = [];
       function genRandom(n) {
