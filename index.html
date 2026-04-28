@@ -513,44 +513,73 @@
       </div>
 
       <p class="lede">
-        Imagine building infrastructure around the Sun &mdash; not the occasional
-        satellite, but millions or billions of them, enough to catch a meaningful
-        fraction of the Sun's light. This is the rough shape of a <em>Dyson
-        swarm</em>, and while it sounds like science fiction, the engineering
-        principles aren't fundamentally exotic. If humanity ever reaches a scale
-        where this becomes feasible, the question of <em>who builds where</em>
-        around the Sun becomes one of the most consequential resource allocations
-        in history.
+        Imagine infrastructure around the Sun that isn't the occasional satellite
+        but something much larger &mdash; enough solar captors to catch a
+        meaningful fraction of the Sun's light. This is the rough shape of a
+        <em>Dyson swarm</em>. It sounds like science fiction, but the underlying
+        engineering isn't fundamentally exotic: solar panels, orbital mechanics,
+        and launch capacity, scaled up a lot. If humanity reaches that scale, the
+        question of <em>who builds where</em> around the Sun becomes one of the
+        most consequential resource allocations in history.
       </p>
 
       <p>
-        That allocation isn't just a matter of fairness in the ordinary sense.
-        The orbits near Earth's plane and close to 1 AU are the most commercially
-        attractive &mdash; easier to reach, easier to beam energy from, and,
-        importantly, <em>most visible from Earth</em>. An actor who captured
-        enough of these orbits could dim the Sun from our perspective at a scale
-        wildly disproportionate to the fraction of total solar output they actually
-        collect. Concentration in particular orbital regions creates strategic
+        The Sun matters because it is, in the long run, the bottleneck.
+        Civilizations that push into space hit energy and mass constraints long
+        before anything else, and the Sun holds the overwhelming majority of both
+        in our solar system &mdash; roughly 99.8% of its mass, and more energy
+        output in a second than Earth consumes in a year. Other resources matter
+        at particular moments &mdash; a rare metal, say, for the first generation
+        of captors &mdash; but as technology advances, energy and mass become the
+        dominant limits. An actor with preferential access to the Sun gains a
+        durable lead in everything downstream: more advanced infrastructure, more
+        computation, faster expansion beyond the solar system.
+      </p>
+
+      <p>
+        This is starting to matter sooner than it might seem. SpaceX and its
+        peers have made space expansion more visible than at any point in the last
+        half-century, and none of the technology on the roadmap toward solar
+        captors requires physics we don&rsquo;t already understand. An industrial
+        explosion unfolding partly in space &mdash; self-replicating or
+        semi-autonomous manufacturing &mdash; could compress timelines
+        dramatically. Governing heliocentric orbits plausibly becomes a live
+        question this century, and quite possibly earlier than its end.
+      </p>
+
+      <p>
+        Allocation isn't just a matter of fairness in the ordinary sense. Orbits
+        near the ecliptic (the flat disc defined by Earth's own orbit, which most
+        of the solar system rides on) and close to 1 AU (the Earth&ndash;Sun
+        distance, about 150 million km) are the most commercially attractive
+        &mdash; easier to reach, easier to beam energy from &mdash; and also
+        <em>most visible from Earth</em>. An actor who captured enough of these
+        specific orbits could dim the Sun from our perspective at a scale wildly
+        disproportionate to the fraction of total solar output they collect.
+        Concentration in particular regions of orbital space creates strategic
         leverage that evenly distributed concentration does not.
       </p>
 
       <p>
-        More broadly, the rules we set for allocation don't only decide a
+        More broadly, the rules we set for allocation don&rsquo;t just decide a
         distribution. They shape <em>which kinds of actors</em> &mdash; states,
-        corporations, consortia, something new &mdash; are favored to emerge and
-        succeed over time. Early rules in novel domains tend to stick; initial
-        conditions persist. What looks like a technical question about orbital
-        mechanics is, underneath, a question about what kind of future the
-        emerging space economy is structured to produce.
+        corporations, consortia, something new &mdash; are favoured to emerge and
+        succeed. Early rules in novel domains tend to stick, and how we start
+        expanding across the stars, if we make it that far, plays an outsized
+        role in how the future goes for any sentient beings that come to exist in
+        it. What looks like a technical question about orbital mechanics is,
+        underneath, a question about what kind of future the emerging space
+        economy is structured to produce.
       </p>
 
       <p>
         This document walks through how orbits are actually described, what
-        allocation schemes are available, how different schemes serve (or don't
-        serve) different actors' interests, and what a governance framework
-        built around three commitments &mdash; <strong>resistance to
-        concentration of power</strong>, <strong>transparency</strong>, and
-        <strong>amendability</strong> &mdash; might look like.
+        allocation schemes are physically available, how different schemes serve
+        or don&rsquo;t serve different actors&rsquo; interests, and what a
+        governance framework built around three commitments &mdash;
+        <strong>resistance to concentration of power</strong>,
+        <strong>transparency</strong>, and <strong>amendability</strong> &mdash;
+        might look like.
       </p>
     </section>
 
@@ -785,15 +814,15 @@
 
       <h3>Eccentricity and argument of periapsis: orbit shape and orientation</h3>
       <p>
-        Eccentricity (<em>e</em>) stretches a circular orbit into an ellipse; as
-        <em>e</em> increases the Sun shifts toward one focus and captors spend
-        more time near the far end of their path. Argument of periapsis
+        Eccentricity (<em>e</em>) stretches a circular orbit into an ellipse;
+        as <em>e</em> increases the Sun shifts toward one focus and captors
+        spend more time near the far end of their path. Argument of periapsis
         (&omega;) rotates the ellipse within its orbital plane, controlling
-        which direction the nearest point faces. Each new orbit below steps
-        inclination up by 7.5&deg; and &omega; by 15&deg;. The periapsis
-        marker on each orbit shows where it comes closest to the Sun &mdash;
-        when <em>e</em> = 0 the markers all stack (periapsis is undefined for
-        a circle), and only spread apart as eccentricity increases.
+        which direction the nearest point faces. All orbits here share the same
+        inclination; each new orbit adds 15&deg; to &omega;. The periapsis
+        marker shows where each orbit comes closest to the Sun &mdash; at
+        <em>e</em> = 0 the markers all stack (periapsis is undefined for a
+        circle) and only spread into a rosette as eccentricity increases.
       </p>
 
       <!-- Viz 3G -->
@@ -826,14 +855,14 @@
               <div class="control-name">Total orbits</div>
               <div class="control-value" id="viz3g-n-val">1</div>
             </div>
-            <div class="control-desc">Each new orbit steps <em>i</em> up by 7.5&deg; and &omega; by 15&deg;, with &Omega; fixed at 0&deg;.</div>
+            <div class="control-desc">Each new orbit increments &omega; by 15&deg;; <em>i</em> and &Omega; are fixed.</div>
             <div class="control-row">
               <input type="range" id="viz3g-n-slider" min="1" max="24" step="1" value="1">
             </div>
           </div>
         </div>
         <div class="reset-row">
-          <span>Eccentricity &amp; &omega; &mdash; fixed <em>a</em>, &Omega;; stepping <em>i</em> &amp; &omega;</span>
+          <span>Eccentricity &amp; &omega; &mdash; fixed <em>a</em>, <em>i</em>, &Omega;</span>
           <button class="reset-btn" id="viz3g-reset">Reset</button>
         </div>
       </div>
@@ -913,6 +942,57 @@
         <div class="reset-row">
           <span>Structured allocation &mdash; variable <em>a</em>, <em>i</em>, &Omega;</span>
           <button class="reset-btn" id="viz3e-reset">Reset</button>
+        </div>
+      </div>
+
+      <h3>Structured allocation: stepping inclination and ω</h3>
+      <p>
+        A structured scheme can govern eccentricity and argument of periapsis
+        too. Here each new orbit steps inclination up by 7.5&deg; and
+        &omega; by 15&deg;, distributing elliptic orbits across the sphere in
+        an orderly, predictable pattern. The eccentricity slider shows how the
+        same structure looks across the full range from circular to elongated.
+      </p>
+
+      <!-- Viz 3H -->
+      <div class="viz-wrap" id="viz3h-wrap">
+        <div class="viz-canvas-container" id="viz3h-container">
+          <canvas id="viz3h-canvas"></canvas>
+          <div class="viz-overlay" id="viz3h-overlay"><div class="viz-overlay-msg">Click to interact</div></div>
+          <div class="viz-legend">
+            <div class="legend-item"><span class="swatch" style="background:#f2b143"></span>Sun</div>
+            <div class="legend-item"><span class="swatch line" style="background:#e07a5f"></span>Actor A</div>
+            <div class="legend-item"><span class="swatch line" style="background:#4fa3d1"></span>Actor B</div>
+            <div class="legend-item"><span class="swatch line" style="background:#81c47e"></span>Actor C</div>
+            <div class="legend-item"><span class="swatch" style="background:#ffffff; opacity:0.55; border-radius:50%"></span>Periapsis</div>
+          </div>
+          <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
+        </div>
+        <div class="controls-grid">
+          <div class="control">
+            <div class="control-head">
+              <div class="control-name">Eccentricity <em>e</em></div>
+              <div class="control-value" id="viz3h-e-val">0.40</div>
+            </div>
+            <div class="control-desc">Stretches each orbit from a circle (<em>e</em> = 0) toward an elongated ellipse.</div>
+            <div class="control-row">
+              <input type="range" id="viz3h-e-slider" min="0" max="0.75" step="0.05" value="0.40">
+            </div>
+          </div>
+          <div class="control">
+            <div class="control-head">
+              <div class="control-name">Total orbits</div>
+              <div class="control-value" id="viz3h-n-val">1</div>
+            </div>
+            <div class="control-desc">Each new orbit steps <em>i</em> up by 7.5&deg; and &omega; by 15&deg;, with &Omega; fixed at 0&deg;.</div>
+            <div class="control-row">
+              <input type="range" id="viz3h-n-slider" min="1" max="24" step="1" value="1">
+            </div>
+          </div>
+        </div>
+        <div class="reset-row">
+          <span>Structured allocation &mdash; stepping <em>i</em> &amp; &omega;, fixed <em>a</em>, &Omega;</span>
+          <button class="reset-btn" id="viz3h-reset">Reset</button>
         </div>
       </div>
 
@@ -1603,6 +1683,12 @@
 
       function rebuild() {
         clearGroup(g);
+        const refA = mode === 'fixed' ? 0.5 : 0.25;
+        const refShell = new THREE.Mesh(
+          new THREE.SphereGeometry(refA, 24, 18),
+          new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.04, wireframe: true })
+        );
+        g.add(refShell);
         for (let k = 0; k < N; k++) {
           const f = fibOrbit(k, 24); // fixed N so orientations don't shift as slider moves
           const a = mode === 'fixed'
@@ -1709,28 +1795,24 @@
       const { scene, controls } = initScene('viz3g-canvas', [1.8, 1.4, 2.2]);
       setupCTI('viz3g-wrap', controls);
       const g = new THREE.Group(); scene.add(g);
-      const A_FIXED = 0.55, I_STEP = 7.5, W_STEP = 15;
+      const A_FIXED = 0.55, I_FIXED = 20;
       let E = 0.40, N = 1;
 
-      function periapsisPt(e, i_deg, w_deg) {
+      function periapsisPt(e, w_deg) {
         const r = A_FIXED * (1 - e * e) / (1 + e);
-        const i = i_deg * DEG, w = w_deg * DEG;
+        const i = I_FIXED * DEG, w = w_deg * DEG;
         const cosw = Math.cos(w), sinw = Math.sin(w);
         const cosi = Math.cos(i), sini = Math.sin(i);
-        const xo = r;
-        const x = cosw * xo;
-        const y = sinw * cosi * xo;
-        const z = sinw * sini * xo;
-        return new THREE.Vector3(x, z, -y);
+        return new THREE.Vector3(cosw * r, sinw * sini * r, -sinw * cosi * r);
       }
 
       function rebuild() {
         clearGroup(g);
         for (let k = 0; k < N; k++) {
-          const i = k * I_STEP, w = k * W_STEP;
+          const w = k * 15;
           const color = ACTORS[k % 3];
-          g.add(makeOrbitElliptic(A_FIXED, E, i, 0, w, color, 0.78));
-          const pt = periapsisPt(E, i, w);
+          g.add(makeOrbitElliptic(A_FIXED, E, I_FIXED, 0, w, color, 0.72));
+          const pt = periapsisPt(E, w);
           const dot = new THREE.Mesh(
             new THREE.SphereGeometry(0.018, 8, 8),
             new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9 })
@@ -1830,6 +1912,56 @@
         document.getElementById('viz3e-n-slider').value = 1;
         document.getElementById('viz3e-n-val').textContent = 1;
         rebuild();
+      });
+    }
+
+    // ==== VIZ 3H: Structured allocation — stepping i + ω ====
+    {
+      const { scene, controls } = initScene('viz3h-canvas', [1.8, 1.4, 2.2]);
+      setupCTI('viz3h-wrap', controls);
+      const g = new THREE.Group(); scene.add(g);
+      const A_FIXED = 0.55, I_STEP = 7.5, W_STEP = 15;
+      let E = 0.40, N = 1;
+
+      function periapsisPt_h(e, i_deg, w_deg) {
+        const r = A_FIXED * (1 - e * e) / (1 + e);
+        const i = i_deg * DEG, w = w_deg * DEG;
+        const cosw = Math.cos(w), sinw = Math.sin(w);
+        const cosi = Math.cos(i), sini = Math.sin(i);
+        return new THREE.Vector3(cosw * r, sinw * sini * r, -sinw * cosi * r);
+      }
+
+      function rebuild() {
+        clearGroup(g);
+        for (let k = 0; k < N; k++) {
+          const i = k * I_STEP, w = k * W_STEP;
+          const color = ACTORS[k % 3];
+          g.add(makeOrbitElliptic(A_FIXED, E, i, 0, w, color, 0.78));
+          const pt = periapsisPt_h(E, i, w);
+          const dot = new THREE.Mesh(
+            new THREE.SphereGeometry(0.018, 8, 8),
+            new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9 })
+          );
+          dot.position.copy(pt);
+          g.add(dot);
+        }
+      }
+      rebuild();
+
+      document.getElementById('viz3h-e-slider').addEventListener('input', (ev) => {
+        E = parseFloat(ev.target.value);
+        document.getElementById('viz3h-e-val').textContent = E.toFixed(2); rebuild();
+      });
+      document.getElementById('viz3h-n-slider').addEventListener('input', (ev) => {
+        N = parseInt(ev.target.value);
+        document.getElementById('viz3h-n-val').textContent = N; rebuild();
+      });
+      document.getElementById('viz3h-reset').addEventListener('click', () => {
+        E = 0.40; N = 1;
+        document.getElementById('viz3h-e-slider').value = 0.40;
+        document.getElementById('viz3h-e-val').textContent = '0.40';
+        document.getElementById('viz3h-n-slider').value = 1;
+        document.getElementById('viz3h-n-val').textContent = 1; rebuild();
       });
     }
 
