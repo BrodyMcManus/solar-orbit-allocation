@@ -1041,17 +1041,200 @@
     </section>
 
     <!-- SECTION 4: WHO BENEFITS (placeholder) -->
-    <section id="actors" class="placeholder">
+    <section id="actors">
       <div class="section-head">
         <div class="num">&sect; 04</div>
-        <h2>Who benefits from each scheme?</h2>
+        <h2>Factors that shape orbit value</h2>
       </div>
-      <div class="placeholder-body">
-        [To be written. An analysis of how the allocation schemes above interact
-        with factors different actors care about: screening (how one orbit
-        blocks another's view of the Sun), line of sight to Earth, transit
-        geometry, commercial accessibility, and strategic concentration.]
-      </div>
+
+      <p>
+        While it is hard to predict what technologies will be developed, we can
+        try to identify the factors that matter when choosing an allocation
+        framework. If the framework is amendable, it can be updated over time
+        to reflect whichever factors are most salient given current conditions.
+        Below is a catalogue of currently identified factors with brief
+        descriptions; the section closes with deeper treatment of the few I
+        expect to be enduringly important regardless of how technology develops.
+      </p>
+
+      <h3>Energy availability</h3>
+      <ul>
+        <li><strong>Solar flux</strong> &mdash; Power received per unit area
+          scales as 1/<em>r</em>&sup2; with distance from the Sun, making
+          inner orbits dramatically more productive per captor.</li>
+        <li><strong>Radiation and solar weather</strong> &mdash; Energetic
+          events (coronal mass ejections, solar flares, particle events) can
+          damage captors and vary with the ~11-year solar cycle, effectively
+          setting a practical inner-radius floor that may shift as materials
+          science improves.</li>
+      </ul>
+
+      <h3>Screening</h3>
+      <ul>
+        <li><strong>Captor&ndash;captor screening</strong> &mdash; A captor on
+          an inner orbit periodically blocks sunlight from outer captors at the
+          two points where their paths cross.</li>
+        <li><strong>Back-side screening</strong> &mdash; Captors at larger
+          radii can intercept energy being radiated or transmitted outward from
+          captors on inner orbits facing away from the Sun.</li>
+        <li><strong>Captor&ndash;Earth screening</strong> &mdash; Dense captor
+          populations transiting the Sun&ndash;Earth line progressively reduce
+          the solar irradiance reaching Earth; at sufficient density this
+          becomes a climate-relevant intervention.</li>
+      </ul>
+
+      <h3>Captor lifespan risks</h3>
+      <ul>
+        <li><strong>Thermal cycling</strong> &mdash; Repeated or large
+          temperature swings from eccentric orbits or sustained screening
+          accelerate material fatigue and degradation.</li>
+        <li><strong>Radiation and solar weather exposure</strong> &mdash;
+          CMEs, particle events, and solar winds erode hardware over time;
+          risk varies by orbital location and phase of the solar cycle.</li>
+        <li><strong>Natural obsolescence</strong> &mdash; Components have
+          finite operational lifetimes independent of the space environment.</li>
+        <li><strong>Space debris and dust</strong> &mdash; Collision and
+          abrasion risk is higher near the ecliptic plane and in orbital zones
+          with higher particle density, such as near the asteroid belt.</li>
+      </ul>
+
+      <h3>End-to-end captor costs</h3>
+      <ul>
+        <li><strong>Delta-v cost</strong> &mdash; The total propellant budget
+          to reach, enter, and maintain an orbit; dominated by launch site
+          conditions, radial distance, inclination change, and ongoing
+          station-keeping against perturbations.</li>
+        <li><strong>Repair and maintenance</strong> &mdash; Servicing captors
+          in situ requires dedicated infrastructure and delta-v; it is currently
+          unclear whether repair or replacement is more cost-effective at
+          scale.</li>
+      </ul>
+
+      <h3>Quality of allocated orbit</h3>
+      <ul>
+        <li><strong>Line-of-sight with Earth</strong> &mdash; Direct visibility
+          enables communications and potential energy transfer; frequency and
+          duration depend on semi-major axis and inclination, and vary over the
+          orbital period.</li>
+        <li><strong>Communication latency</strong> &mdash; Light-travel time to
+          1&nbsp;AU is about 8.3&nbsp;minutes; the variation in latency over an
+          orbit (delta-latency) may matter more than the absolute figure for
+          most applications.</li>
+        <li><strong>EM noise environment</strong> &mdash; Dense solar emission
+          across the spectrum near the Sun may degrade usable communication
+          bands, particularly for captors at small radii or in angular
+          proximity to the Sun as seen from Earth.</li>
+      </ul>
+
+      <h3>Actor interactions</h3>
+      <ul>
+        <li><strong>Transmission interference</strong> &mdash; Dense near-Sun
+          populations all transmitting toward Earth may require frequency
+          coordination analogous to geostationary satellite management.</li>
+        <li><strong>Collision risk</strong> &mdash; Increases with captor
+          density, particularly during orbit entry and amendment, though the
+          vastness of even inner solar space keeps absolute probability
+          low.</li>
+        <li><strong>Waste heat</strong> &mdash; At very high capture fractions,
+          dissipating waste heat within a dense swarm could become a physical
+          constraint on total throughput.</li>
+        <li><strong>Monitoring</strong> &mdash; Some allocation schemes keep
+          different actors&rsquo; captors interspersed (enabling observation);
+          others concentrate each actor in a band, making it easier to screen
+          operations from others.</li>
+        <li><strong>Targeting vulnerability</strong> &mdash; Band-based
+          allocations make it easier to preferentially damage one
+          actor&rsquo;s assets; mixed-actor orbits raise the cost of targeted
+          interference by ensuring that destructive actions hurt everyone.</li>
+        <li><strong>Kessler-like syndrome</strong> &mdash; Debris accumulation
+          in heavily used orbital zones could render them unusable, especially
+          at small radii where the orbital shell is physically narrowest and
+          replacement rates highest.</li>
+      </ul>
+
+      <h3>Energy availability and screening: why they endure</h3>
+      <p>
+        Energy availability and screening are enduringly important because they
+        directly determine the productive value of an orbit and the externalities
+        it imposes on others &mdash; and both are governed by geometry that
+        does not change with technology.
+      </p>
+      <p>
+        The 1/<em>r</em>&sup2; scaling of solar flux is the dominant fact about
+        orbit value. An orbit at 0.1&nbsp;AU delivers roughly 100 times more
+        solar power per unit area than one at 1&nbsp;AU. All else equal, inner
+        orbits are simply more valuable, and no technological progress changes
+        this relationship. The practical floor moves inward as materials science
+        and thermal management improve, but the gradient never flattens. This
+        means allocation frameworks that appear fair in terms of raw orbit count
+        can still be profoundly unequal in terms of the energy value allocated.
+      </p>
+      <p>
+        Captor&ndash;captor screening is the other side of the same coin. Any
+        two circular orbits at the same radius cross at exactly two points, so
+        inner captors periodically shadow outer ones. At low swarm densities
+        this is a minor nuisance. As coverage grows, it becomes a structural
+        feature: an actor whose orbit lies inside yours imposes a recurring
+        screening tax on your energy collection. This creates a natural pressure
+        toward the innermost feasible orbits, which concentrates physical and
+        economic value and compounds the advantage of early movers.
+      </p>
+      <p>
+        Captor&ndash;Earth screening adds a distinct political dimension. If
+        enough total solar flux is intercepted before reaching Earth, the effect
+        becomes detectable &mdash; first as a slight dimming, then, at higher
+        densities, as a measurable climate intervention. This is the mechanism
+        by which Dyson swarm deployment could have civilizational-scale
+        consequences well before anything like full coverage is achieved, and
+        any governance framework that lacks provisions for monitoring and
+        limiting Earth-facing screening risks losing legitimacy as coverage
+        grows.
+      </p>
+
+      <h3>Delta-v cost: why it endures</h3>
+      <p>
+        Delta-v is the currency of orbital mechanics &mdash; the total velocity
+        change a spacecraft must achieve, which determines propellant mass and
+        therefore cost and feasibility. It is enduringly important because the
+        underlying physics do not change, and because the distribution of
+        delta-v costs across possible orbits is deeply unequal in ways that map
+        onto governance questions.
+      </p>
+      <p>
+        The dominant costs are reaching the target orbital radius, achieving
+        the correct inclination, and maintaining the orbit over its lifetime
+        against perturbations. Of these, inclination change is by far the most
+        expensive per degree. Changing the longitude of ascending node
+        (&Omega;) at a fixed inclination, by contrast, costs almost nothing
+        &mdash; it can be achieved by waiting for the right geometry rather
+        than burning propellant. This asymmetry is why the &Omega;-then-<em>i</em>
+        allocation pattern in section&nbsp;3 has a physical grounding:
+        exhausting &Omega; slots before stepping inclination minimises the
+        total delta-v burden on a population of actors filling out a swarm.
+      </p>
+      <p>
+        The governance implication is significant. Actors who manufacture
+        captors in the inner solar system &mdash; on Mercury, or in cislunar
+        space with access to efficient low-thrust propulsion &mdash; gain a
+        structural cost advantage for the most valuable inner orbits that
+        compounds over time. A framework that ignores this will tend to
+        concentrate access to the best orbits among actors with the best
+        existing infrastructure, reinforcing advantages that are already
+        durable. Countermeasures could include requiring a minimum delta-v
+        expenditure for orbit access, or linking closer orbit allocation to
+        demonstrated inclination diversity, so that the cheapest slots do not
+        simply accrue to whoever arrives first.
+      </p>
+      <p>
+        Station-keeping costs also grow with orbital radius. Gravitational
+        perturbations from other planets &mdash; Jupiter in particular &mdash;
+        scale as (<em>M</em><sub>perturber</sub>&nbsp;/&nbsp;<em>M</em><sub>Sun</sub>)
+        &times;&nbsp;(<em>r</em>&nbsp;/&nbsp;<em>D</em>)&sup3;, where
+        <em>r</em> is the captor&rsquo;s orbital radius and <em>D</em> is the
+        Sun&ndash;perturber distance. This subtly penalises large-radius orbits
+        beyond the physical penalty already imposed by the 1/<em>r</em>&sup2;
+        flux relationship.
+      </p>
     </section>
 
     <!-- SECTION 5: GOVERNANCE (placeholder) -->
