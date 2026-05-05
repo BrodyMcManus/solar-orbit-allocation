@@ -1040,6 +1040,33 @@
 
     </section>
 
+    <!-- SECTION 4: WHO BENEFITS (placeholder) -->
+    <section id="actors" class="placeholder">
+      <div class="section-head">
+        <div class="num">&sect; 04</div>
+        <h2>Who benefits from each scheme?</h2>
+      </div>
+      <div class="placeholder-body">
+        [To be written. An analysis of how the allocation schemes above interact
+        with factors different actors care about: screening (how one orbit
+        blocks another's view of the Sun), line of sight to Earth, transit
+        geometry, commercial accessibility, and strategic concentration.]
+      </div>
+    </section>
+
+    <!-- SECTION 5: GOVERNANCE (placeholder) -->
+    <section id="governance" class="placeholder">
+      <div class="section-head">
+        <div class="num">&sect; 05</div>
+        <h2>What should the rules actually try to do?</h2>
+      </div>
+      <div class="placeholder-body">
+        [To be written. Shifting from "what do actors want" to "what should
+        governance aim for": resistance to concentration of power, transparency,
+        amendability &mdash; and how fairness fits in as a stability heuristic
+        rather than a terminal goal.]
+      </div>
+    </section>
     <!-- FEEDBACK -->
     <section id="feedback" style="border-top:1px solid var(--rule); margin-top:4rem; padding-top:2.5rem">
       <div class="section-head" style="margin-bottom:1rem">
@@ -1072,33 +1099,6 @@
       </p>
     </section>
 
-    <!-- SECTION 4: WHO BENEFITS (placeholder) -->
-    <section id="actors" class="placeholder">
-      <div class="section-head">
-        <div class="num">&sect; 04</div>
-        <h2>Who benefits from each scheme?</h2>
-      </div>
-      <div class="placeholder-body">
-        [To be written. An analysis of how the allocation schemes above interact
-        with factors different actors care about: screening (how one orbit
-        blocks another's view of the Sun), line of sight to Earth, transit
-        geometry, commercial accessibility, and strategic concentration.]
-      </div>
-    </section>
-
-    <!-- SECTION 5: GOVERNANCE (placeholder) -->
-    <section id="governance" class="placeholder">
-      <div class="section-head">
-        <div class="num">&sect; 05</div>
-        <h2>What should the rules actually try to do?</h2>
-      </div>
-      <div class="placeholder-body">
-        [To be written. Shifting from "what do actors want" to "what should
-        governance aim for": resistance to concentration of power, transparency,
-        amendability &mdash; and how fairness fits in as a stability heuristic
-        rather than a terminal goal.]
-      </div>
-    </section>
   </main>
 
   <footer>
@@ -2003,9 +2003,11 @@
       function rebuild() {
         clearGroup(g);
         for (let k = 0; k < N; k++) {
-          const band = Math.floor(k / 4);
+          // k=0 is the single equatorial orbit (i=0, Omega meaningless)
+          // k>=1: groups of 4 fill Omega at each inclination band
+          const band = k === 0 ? 0 : Math.floor((k - 1) / 4) + 1;
           const inc = band * I_STEP;
-          const O = OMEGAS_H[k % 4];
+          const O = k === 0 ? 0 : OMEGAS_H[(k - 1) % 4];
           const a = 0.35 + band * 0.10;
           g.add(makeOrbit(a, inc, O, ACTORS[k % 3], 0.78));
         }
