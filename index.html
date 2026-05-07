@@ -661,7 +661,7 @@
             <div class="legend-item"><span class="swatch line" style="background:#6aa8d855"></span>Ecliptic plane</div>
             <div class="legend-item"><span class="swatch line" style="background:#f4d599"></span>Orbit</div>
             <div class="legend-item"><span class="swatch" style="background:#ffffff"></span>Solar Captor</div>
-            <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Periapsis (&nu; = 0&deg;)</div>
+            <div class="legend-item"><span class="swatch" style="background:#e07a5f"></span>Periapsis</div>
           </div>
           <div class="viz-hint">Drag to rotate &middot; Scroll to zoom</div>
         </div>
@@ -761,13 +761,13 @@
         As the geometry above shows, single-shell packing is collision-constrained
         in a way that multi-shell allocations are not &mdash; making variable
         radius a near prerequisite for any full-scale satellite swarms.
-        The visualizations also use the concept of an <em>orbital band</em>: all
-        orbits sharing a given inclination. A band can hold many captors &mdash;
-        spread around the Sun&rsquo;s axis by varying &Omega; and spaced along
-        the path by varying &nu;.
+        All but the &nu; visualization assume that 360&deg; of &nu; are
+        allocated to a single actor, which makes orbits appear as bands. For
+        any of these visualizations, you could (and likely should!) allocate
+        &nu; across multiple actors.
       </p>
 
-      <h3>Inclination (<em>i</em>): adding orbital bands</h3>
+      <h3>Inclination (<em>i</em>): The latitude/longitude allocation </h3>
       <p>
         Starting from the ecliptic (i&nbsp;=&nbsp;0&deg;), increasing the
         inclination range adds new bands, each allocated to the next actor in
@@ -805,10 +805,10 @@
         </div>
       </div>
 
-      <h3>Longitude of ascending node (&Omega;): filling each band</h3>
+      <h3>Longitude of ascending node (&Omega;)</h3>
       <p>
-        &Omega; rotates an orbit around the Sun&rsquo;s axis within its band.
-        Set an inclination, then increase the orbit count to see the band fill in.
+        &Omega; rotates an orbital band around the Sun&rsquo;s axis at a given inclination.
+        Set an inclination, then increase the orbit count to see the structure that emerges.
       </p>
 
       <!-- Viz 3C -->
