@@ -761,13 +761,13 @@
         As the geometry above shows, single-shell packing is collision-constrained
         in a way that multi-shell allocations are not &mdash; making variable
         radius a near prerequisite for any full-scale satellite swarms.
-        All but the &nu; visualization assume that 360&deg; of &nu; are
+        All but the &nu; visualization assume that all 360&deg; of &nu; are
         allocated to a single actor, which makes orbits appear as bands. For
         any of these visualizations, you could (and likely should!) allocate
         &nu; across multiple actors.
       </p>
 
-      <h3>Inclination (<em>i</em>): The latitude/longitude allocation </h3>
+      <h3>Inclination (<em>i</em>): The North–South allocation </h3>
       <p>
         Starting from the ecliptic (i&nbsp;=&nbsp;0&deg;), increasing the
         inclination range adds new bands, each allocated to the next actor in
@@ -805,7 +805,7 @@
         </div>
       </div>
 
-      <h3>Longitude of ascending node (&Omega;)</h3>
+      <h3>Longitude of ascending node (&Omega;): the cocoon allocation </h3>
       <p>
         &Omega; rotates an orbital band around the Sun&rsquo;s axis at a given inclination.
         Set an inclination, then increase the orbit count to see the structure that emerges.
@@ -857,9 +857,8 @@
         Eccentricity (<em>e</em>) stretches a circular orbit into an ellipse;
         as <em>e</em> increases the Sun shifts toward one focus and captors
         spend more time near the far end of their path. Argument of periapsis
-        (&omega;) rotates the ellipse within its orbital plane, controlling
-        which direction the nearest point faces. All orbits here share the same
-        inclination; each new orbit adds 15&deg; to &omega;. The periapsis
+        (&omega;) rotates the ellipse within its orbital plane. All orbits 
+        here share the same inclination; each new orbit adds 15&deg; to &omega;. The periapsis
         marker shows where each orbit comes closest to the Sun &mdash; at
         <em>e</em> = 0 the markers all stack (periapsis is undefined for a
         circle) and only spread into a rosette as eccentricity increases.
@@ -948,7 +947,7 @@
 
       <h3>Unstructured allocation: fully random</h3>
       <p>
-        As a baseline, consider what happens when all five orbital elements &mdash;
+        As a baseline, consider what happens when five orbital elements &mdash;
         radius (<em>a</em>), eccentricity (<em>e</em>), inclination (<em>i</em>),
         longitude of ascending node (&Omega;), and argument of periapsis (&omega;)
         &mdash; are drawn independently at random. No coordination is imposed; each
@@ -990,9 +989,10 @@
       <p>
         In contrast to random assignment, a Fibonacci (golden-angle) lattice
         distributes orbits near-uniformly across the sphere of possible orientations
-        when varying radius, inclination, and &Omega; together &mdash; minimising
-        clustering without any explicit coordination between actors. The ordering
-        is fixed by the lattice, which is itself a governance choice.
+        when varying radius, inclination, and &Omega; together. This allocation does
+        a good job at minimising
+        clustering without any explicit coordination between actors, but may not be
+        the easiest to establish or amend over time.
       </p>
 
       <!-- Viz 3E -->
@@ -1082,11 +1082,12 @@
       <p>
         While it is hard to predict what technologies will be developed, we can
         try to identify the factors that matter when choosing an allocation
-        framework. If the framework is amendable, it can be updated over time
+        framework. The more amendable a given framework is, the easier it can be updated over time
         to reflect whichever factors are most salient given current conditions.
-        Below is a catalogue of currently identified factors with brief
-        descriptions; the section closes with deeper treatment of the few I
-        expect to be enduringly important regardless of how technology develops.
+        You can find the full catalogue of currently identified factors with brief
+        descriptions in the <a href="#appendix" style="color:var(--accent)">appendix</a>.
+        In this section, I will mention and motivate the few factors that I think
+        will be particularly important.
       </p>
 
       <h3>Energy availability</h3>
@@ -1094,11 +1095,6 @@
         <li><strong>Solar flux</strong> &mdash; Power received per unit area
           scales as 1/<em>r</em>&sup2; with distance from the Sun, making
           inner orbits dramatically more productive per captor.</li>
-        <li><strong>Radiation and solar weather</strong> &mdash; Energetic
-          events (coronal mass ejections, solar flares, particle events) can
-          damage captors and vary with the ~11-year solar cycle, effectively
-          setting a practical inner-radius floor that may shift as materials
-          science improves.</li>
       </ul>
 
       <h3>Screening</h3>
@@ -1115,74 +1111,13 @@
           becomes a climate-relevant intervention.</li>
       </ul>
 
-      <h3>Captor lifespan risks</h3>
-      <ul>
-        <li><strong>Thermal cycling</strong> &mdash; Repeated or large
-          temperature swings from eccentric orbits or sustained screening
-          accelerate material fatigue and degradation.</li>
-        <li><strong>Radiation and solar weather exposure</strong> &mdash;
-          CMEs, particle events, and solar winds erode hardware over time;
-          risk varies by orbital location and phase of the solar cycle.</li>
-        <li><strong>Natural obsolescence</strong> &mdash; Components have
-          finite operational lifetimes independent of the space environment.</li>
-        <li><strong>Space debris and dust</strong> &mdash; Collision and
-          abrasion risk is higher near the ecliptic plane and in orbital zones
-          with higher particle density, such as near the asteroid belt.</li>
-      </ul>
-
-      <h3>End-to-end captor costs</h3>
-      <ul>
-        <li><strong>Delta-v cost</strong> &mdash; The total propellant budget
-          to reach, enter, and maintain an orbit; dominated by launch site
-          conditions, radial distance, inclination change, and ongoing
-          station-keeping against perturbations.</li>
-        <li><strong>Repair and maintenance</strong> &mdash; Servicing captors
-          in situ requires dedicated infrastructure and delta-v; it is currently
-          unclear whether repair or replacement is more cost-effective at
-          scale.</li>
-      </ul>
-
-      <h3>Quality of allocated orbit</h3>
-      <ul>
-        <li><strong>Line-of-sight with Earth</strong> &mdash; Direct visibility
-          enables communications and potential energy transfer; frequency and
-          duration depend on semi-major axis and inclination, and vary over the
-          orbital period.</li>
-        <li><strong>Communication latency</strong> &mdash; Light-travel time to
-          1&nbsp;AU is about 8.3&nbsp;minutes; the variation in latency over an
-          orbit (delta-latency) may matter more than the absolute figure for
-          most applications.</li>
-        <li><strong>EM noise environment</strong> &mdash; Dense solar emission
-          across the spectrum near the Sun may degrade usable communication
-          bands, particularly for captors at small radii or in angular
-          proximity to the Sun as seen from Earth.</li>
-      </ul>
-
       <h3>Actor interactions</h3>
-      <ul>
-        <li><strong>Transmission interference</strong> &mdash; Dense near-Sun
-          populations all transmitting toward Earth may require frequency
-          coordination analogous to geostationary satellite management.</li>
-        <li><strong>Collision risk</strong> &mdash; Increases with captor
-          density, particularly during orbit entry and amendment, though the
-          vastness of even inner solar space keeps absolute probability
-          low.</li>
-        <li><strong>Waste heat</strong> &mdash; At very high capture fractions,
-          dissipating waste heat within a dense swarm could become a physical
-          constraint on total throughput.</li>
-        <li><strong>Monitoring</strong> &mdash; Some allocation schemes keep
-          different actors&rsquo; captors interspersed (enabling observation);
-          others concentrate each actor in a band, making it easier to screen
-          operations from others.</li>
-        <li><strong>Targeting vulnerability</strong> &mdash; Band-based
-          allocations make it easier to preferentially damage one
-          actor&rsquo;s assets; mixed-actor orbits raise the cost of targeted
-          interference by ensuring that destructive actions hurt everyone.</li>
-        <li><strong>Kessler-like syndrome</strong> &mdash; Debris accumulation
-          in heavily used orbital zones could render them unusable, especially
-          at small radii where the orbital shell is physically narrowest and
-          replacement rates highest.</li>
-      </ul>
+      <p>
+        There are many different types of actor interactions that could arise,
+        but an allocation that introduces these factors could better promote
+        competition and monitoring, while also serving as a minor form of
+        deterrence.
+      </p>
 
       <h3>Energy availability and screening: why they endure</h3>
       <p>
@@ -1312,6 +1247,105 @@
       <p id="feedback-thanks" style="display:none; color:var(--text-dim); font-size:0.95rem; margin-top:1rem">
         Thanks &mdash; feedback received.
       </p>
+    </section>
+
+    <!-- APPENDIX -->
+    <section id="appendix" style="border-top:1px solid var(--rule); margin-top:4rem; padding-top:2.5rem">
+      <div class="section-head" style="margin-bottom:1rem">
+        <div class="num">Appendix</div>
+        <h2>Catalogue of orbital factors</h2>
+      </div>
+
+      <h3>Energy availability</h3>
+      <ul>
+        <li><strong>Solar flux</strong> &mdash; Power received per unit area
+          scales as 1/<em>r</em>&sup2; with distance from the Sun, making
+          inner orbits dramatically more productive per captor.</li>
+      </ul>
+
+      <h3>Screening</h3>
+      <ul>
+        <li><strong>Captor&ndash;captor screening</strong> &mdash; A captor on
+          an inner orbit periodically blocks sunlight from outer captors at the
+          two points where their paths cross.</li>
+        <li><strong>Back-side screening</strong> &mdash; Captors at larger
+          radii can intercept energy being radiated or transmitted outward from
+          captors on inner orbits facing away from the Sun.</li>
+        <li><strong>Captor&ndash;Earth screening</strong> &mdash; Dense captor
+          populations transiting the Sun&ndash;Earth line progressively reduce
+          the solar irradiance reaching Earth; at sufficient density this
+          becomes a climate-relevant intervention.</li>
+      </ul>
+
+      <h3>Captor lifespan risks</h3>
+      <ul>
+        <li><strong>Thermal cycling</strong> &mdash; Repeated or large
+          temperature swings from eccentric orbits or sustained screening
+          accelerate material fatigue and degradation.</li>
+        <li><strong>Radiation and solar weather exposure</strong> &mdash;
+          CMEs, particle events, and solar winds erode hardware over time;
+          risk varies by orbital location and follows the ~11-year solar
+          cycle.</li>
+        <li><strong>Natural obsolescence</strong> &mdash; Components have
+          finite operational lifetimes independent of the space environment.</li>
+        <li><strong>Space debris and dust</strong> &mdash; Collision and
+          abrasion risk is higher near the ecliptic plane and in orbital zones
+          with higher particle density, such as near the asteroid belt.</li>
+      </ul>
+
+      <h3>End-to-end captor costs</h3>
+      <ul>
+        <li><strong>Delta-v cost</strong> &mdash; The total propellant budget
+          to reach, enter, and maintain an orbit; dominated by launch site
+          conditions, radial distance, inclination change, and ongoing
+          station-keeping against perturbations.</li>
+        <li><strong>Repair and maintenance</strong> &mdash; Servicing captors
+          in situ requires dedicated infrastructure and delta-v; it is currently
+          unclear whether repair or replacement is more cost-effective at
+          scale.</li>
+      </ul>
+
+      <h3>Quality of allocated orbit</h3>
+      <ul>
+        <li><strong>Line-of-sight with Earth</strong> &mdash; Direct visibility
+          enables communications and potential energy transfer; frequency and
+          duration depend on semi-major axis and inclination, and vary over the
+          orbital period.</li>
+        <li><strong>Communication latency</strong> &mdash; Light-travel time to
+          1&nbsp;AU is about 8.3&nbsp;minutes; the variation in latency over an
+          orbit (delta-latency) may matter more than the absolute figure for
+          most applications.</li>
+        <li><strong>EM noise environment</strong> &mdash; Dense solar emission
+          across the spectrum near the Sun may degrade usable communication
+          bands, particularly for captors at small radii or in angular
+          proximity to the Sun as seen from Earth.</li>
+      </ul>
+
+      <h3>Actor interactions</h3>
+      <ul>
+        <li><strong>Transmission interference</strong> &mdash; Dense near-Sun
+          populations all transmitting toward Earth may require frequency
+          coordination analogous to geostationary satellite management.</li>
+        <li><strong>Collision risk</strong> &mdash; Increases with captor
+          density, particularly during orbit entry and amendment, though the
+          vastness of even inner solar space keeps absolute probability
+          low.</li>
+        <li><strong>Waste heat</strong> &mdash; At very high capture fractions,
+          dissipating waste heat within a dense swarm could become a physical
+          constraint on total throughput.</li>
+        <li><strong>Monitoring</strong> &mdash; Some allocation schemes keep
+          different actors&rsquo; captors interspersed (enabling observation);
+          others concentrate each actor in a band, making it easier to screen
+          operations from others.</li>
+        <li><strong>Targeting vulnerability</strong> &mdash; Band-based
+          allocations make it easier to preferentially damage one
+          actor&rsquo;s assets; mixed-actor orbits raise the cost of targeted
+          interference by ensuring that destructive actions hurt everyone.</li>
+        <li><strong>Kessler-like syndrome</strong> &mdash; Debris accumulation
+          in heavily used orbital zones could render them unusable, especially
+          at small radii where the orbital shell is physically narrowest and
+          replacement rates highest.</li>
+      </ul>
     </section>
 
   </main>
@@ -2106,19 +2140,20 @@
       const N_SEG = 360 / SEG;
       let fillDeg = 48;
 
-      // Pre-build all segment lines
+      // Pre-build all segment tubes (TubeGeometry for visible thickness)
       const segLines = orbitDefs.map(o =>
         Array.from({length: N_SEG}, (_, k) => {
           const nu0 = k * SEG * DEG, nu1 = (k + 1) * SEG * DEG;
-          const pts = Array.from({length: 8}, (_, s) =>
-            orbitPt(o.a, o.i * DEG, o.O * DEG, nu0 + (nu1 - nu0) * s / 7));
-          const line = new THREE.Line(
-            new THREE.BufferGeometry().setFromPoints(pts),
-            new THREE.LineBasicMaterial({ color: ACTORS[k % 3], transparent: true, opacity: 0.95 })
+          const pts = Array.from({length: 12}, (_, s) =>
+            orbitPt(o.a, o.i * DEG, o.O * DEG, nu0 + (nu1 - nu0) * s / 11));
+          const curve = new THREE.CatmullRomCurve3(pts);
+          const tube = new THREE.Mesh(
+            new THREE.TubeGeometry(curve, 8, 0.012, 5, false),
+            new THREE.MeshBasicMaterial({ color: ACTORS[k % 3], transparent: true, opacity: 0.95 })
           );
-          line.visible = false;
-          scene.add(line);
-          return line;
+          tube.visible = false;
+          scene.add(tube);
+          return tube;
         })
       );
 
