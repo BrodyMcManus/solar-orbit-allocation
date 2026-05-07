@@ -428,6 +428,9 @@
       color: var(--bg);
       background: var(--accent);
     }
+    button.sweep-btn em,
+    .reset-row em,
+    button.reset-btn em { text-transform: none; }
 
     .reset-row {
       padding: 0.8rem 1.2rem;
@@ -621,7 +624,7 @@
         <li id="fn-l1">See
           <a href="https://www.wikiwand.com/en/Lagrange_point" target="_blank" rel="noopener" style="color:var(--accent)">Lagrange Point 1</a>,
           the gravitationally stable position between Earth and the Sun where
-          infrastructure is easiest to park and operate.
+          infrastructure is easy to park and cheap to operate.
           <a href="#fnref-l1" style="color:var(--accent);text-decoration:none;">&uarr;</a>
         </li>
       </ol>
@@ -681,7 +684,7 @@
 
       <p>
         Each of these six numbers can be &ldquo;allocated&rdquo; to an actor
-        that wants to place a captor in orbit around the Sun. How that allocation
+        that wants to place captors, or other infrastructure, in orbit around the Sun. How that allocation
         is structured carries significant implications, which
         the next sections explore.
       </p>
@@ -705,9 +708,8 @@
 
       <h3>Radius (<em>a</em>): fixed shell vs variable</h3>
       <p>
-        If eccentricity is zero, every orbit is a circle. A set of circular orbits at
-        the same radius forms a <em>shell</em>. Any two circular orbits at the
-        same radius share exactly two crossing points, so captors on a single
+        If eccentricity is zero, every orbit follows a circular path. A set of circular orbits at
+        the same radius share a <em>shell</em> and exactly two crossing points. This means captors on a single
         shell require time-coordinated collision avoidance, placing a practical ceiling
         on how densely a shell can be packed. Allowing variable radius removes the
         constraint: captors on different shells won't be able to collide.
@@ -758,15 +760,18 @@
         For the remaining visualizations, variable radius is assumed throughout.
         As the geometry above shows, single-shell packing is collision-constrained
         in a way that multi-shell allocations are not &mdash; making variable
-        radius a near prerequisite for any full-scale swarm.
+        radius a near prerequisite for any full-scale satellite swarms.
+        The visualizations also use the concept of an <em>orbital band</em>: all
+        orbits sharing a given inclination. A band can hold many captors &mdash;
+        spread around the Sun&rsquo;s axis by varying &Omega; and spaced along
+        the path by varying &nu;.
       </p>
 
       <h3>Inclination (<em>i</em>): adding orbital bands</h3>
       <p>
-        Starting from the ecliptic (i&nbsp;=&nbsp;0&deg;) and increasing the
-        inclination range, new orbital bands emerge. Each band represents a family of
-        orbits tilted at that angle relative to Earth&rsquo;s orbital plane. Bands
-        are distributed between the three actors as they appear.
+        Starting from the ecliptic (i&nbsp;=&nbsp;0&deg;), increasing the
+        inclination range adds new bands, each allocated to the next actor in
+        sequence.
       </p>
 
       <!-- Viz 3B -->
@@ -802,10 +807,8 @@
 
       <h3>Longitude of ascending node (&Omega;): filling each band</h3>
       <p>
-        Within any inclination band, &Omega; controls where the orbit is rotated
-        around the Sun&rsquo;s axis. Distributing more &Omega; values populates
-        each band more densely. Set an inclination, then increase the orbit count
-        to see the band fill in.
+        &Omega; rotates an orbit around the Sun&rsquo;s axis within its band.
+        Set an inclination, then increase the orbit count to see the band fill in.
       </p>
 
       <!-- Viz 3C -->
