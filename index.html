@@ -649,11 +649,9 @@
       </p>
 
       <p>
-        This document walks through how orbits are actually described, what
-        allocation schemes are available, how different schemes serve or
-        don&rsquo;t serve different actors&rsquo; interests across a range of
-        factors, and what allocation frameworks built around those four
-        commitments might look like.
+        This document walks through how orbits can be described, presents a number of 
+        allocation schemes that are available, the various factors to consider when designing and allocation scheme, and what allocation frameworks built around those four
+        properties might look like.
       </p>
 
       <ol class="footnotes" style="font-size:0.85rem;color:var(--text-dim);margin-top:2rem;padding-left:1.5rem;max-width:60ch;">
@@ -1133,7 +1131,10 @@
         1&nbsp;AU &mdash; meaning frameworks counted in captor number can be
         profoundly unequal in energy value. Screening compounds this: inner
         captors periodically shadow outer ones, creating structural pressure
-        toward the innermost feasible orbits, or orbits that minimize screening. Captor&ndash;Earth screening adds a further political
+        toward the innermost feasible orbits. This pressure further exasterbates screening because fewer captors are needed to fill a shell at a smaller orbital radius; the space fills up more quickly. 
+      </p>
+      <p>
+        Captor&ndash;Earth screening adds a further political
         dimension: dense swarm populations transiting the Sun&ndash;Earth line
         reduce the amount of sunlight reaching Earth, and at sufficient density this could become
         a measurable climate intervention well before full coverage is achieved.
@@ -1189,18 +1190,133 @@
       </p>
     </section>
 
-    <!-- SECTION 5: GOVERNANCE (placeholder) -->
-    <section id="governance" class="placeholder">
+    <!-- SECTION 5: GOVERNANCE -->
+    <section id="governance">
       <div class="section-head">
         <div class="num">&sect; 05</div>
-        <h2>What should the rules actually try to do?</h2>
+        <h2>Connecting orbital parameters to governance goals</h2>
       </div>
-      <div class="placeholder-body">
-        [To be written. Shifting from "what do actors want" to "what should
-        governance aim for": resistance to concentration of power, transparency,
-        amendability &mdash; and how fairness fits in as a stability heuristic
-        rather than a terminal goal.]
-      </div>
+
+      <p>
+        If we are looking for allocations that have the four properties of
+        resisting concentration of power, amendability, transparency, and
+        agreeableness, how should we think about the orbital parameters to
+        allocate in light of the factors that seem relevant?
+      </p>
+
+      <h3>True anomaly (<em>&nu;</em>)</h3>
+      <p>
+        Allocating true anomaly among various actors for any given orbit seems
+        very important to resist concentration of power. If this is not done,
+        a first mover could gain access to the cheapest or most valuable orbits
+        (e.g. 0&deg; inclination; small orbital radius), forcing subsequent
+        actors to pay higher delta-v costs or have systematically lower energy
+        availability, increasing the first mover&rsquo;s lead. Allocating
+        &nu; could also help increase deterrence, and lead to improved
+        transparency of the overall system through increases in monitoring
+        between actors.
+      </p>
+
+      <h3>Semi-major axis / radius (<em>a</em>)</h3>
+      <p>
+        Actors are incentivised to research and employ technologies that allow
+        them to orbit closer to the Sun because of the increased energy
+        availability. To prevent collisions and excessive screening &mdash;
+        unless or until
+        <a href="https://www.wikiwand.com/en/Statite" target="_blank"
+           rel="noopener" style="color:var(--accent)">statites</a><sup><a
+           href="#fn-s5-1" id="fnref-s5-1"
+           style="color:var(--accent);text-decoration:none;">1</a></sup>
+        can be employed &mdash; radius should be allocated for the sake of
+        agreeableness. Orbits at smaller radii are more costly to amend, all
+        else equal, which could be important to consider until improved
+        propulsion technology is implemented.
+      </p>
+
+      <h3>Inclination (<em>i</em>)</h3>
+      <p>
+        Inclination requires more delta-v to achieve than &Omega;, but will
+        need to be balanced with &Omega; because successive inclination bands
+        at a fixed &Omega; increasingly screen each other. Inclination
+        allocation is necessary to complete a full Dyson sphere. Together with
+        &nu; allocation, inclination requirements address the concentration
+        risk described in
+        <a href="#why" style="color:var(--accent)">&sect;01</a>: without them,
+        early actors could pack the near-ecliptic band and gain
+        disproportionate leverage over how much sunlight reaches Earth. This
+        means inclination allocation also has to be agreeable to external
+        stakeholders &mdash; Earth included &mdash; whose interests may differ
+        from those of the actors building the swarm.
+      </p>
+
+      <h3>Longitude of ascending node (&Omega;)</h3>
+      <p>
+        Allocating &Omega; is not strictly necessary to complete a full Dyson
+        sphere. However, for any given inclination, a shift in &Omega; can
+        provide a comparable reduction in screening to a 1&deg; inclination
+        change for essentially no extra delta-v cost. This means that actors,
+        particularly near the beginning of Dyson swarm construction, would
+        prefer &Omega; allocations rather than increasing inclination. &Omega;
+        and inclination allocations therefore need to be balanced. The
+        &Omega;-then-<em>i</em> allocation in
+        <a href="#schemes" style="color:var(--accent)">&sect;03</a> is one
+        example of how this can be done.
+      </p>
+
+      <h3>Eccentricity (<em>e</em>)</h3>
+      <p>
+        Given a specific orbital radius, energy availability is maximised by a
+        circular orbit at that radius, implying that actors would want an
+        eccentricity of 0. While other factors like line-of-sight,
+        delta-latency, and thermal cycling could further support
+        <em>e</em>&thinsp;=&thinsp;0 being desirable, there are some
+        conditions where myopic optimisation for energy availability could lead
+        actors to desire eccentric orbits. These dynamics need further
+        exploration.
+      </p>
+
+      <h3>Argument of periapsis (<em>&omega;</em>)</h3>
+      <p>
+        Given an eccentricity of 0, argument of periapsis is undefined and
+        need not be allocated.
+      </p>
+
+      <p>
+        Allocating and tracking solar infrastructure using the above parameters
+        is necessary, but not sufficient, for transparency. A governance regime
+        also needs registries, monitoring infrastructure, and enforcement
+        mechanisms that go beyond which orbits are assigned to whom.
+      </p>
+
+      <p>
+        Finally, it&rsquo;s important to note that the parameters that matter
+        most shift as the swarm grows, and as technology changes which orbits
+        are feasible or desirable. Under the condition of an
+        <a href="https://www.forethought.org/research/the-industrial-explosion"
+           target="_blank" rel="noopener"
+           style="color:var(--accent)">industrial explosion</a>
+        in space, the completion of a full Dyson swarm could follow an
+        exponential trajectory, with a large majority of captor construction
+        occurring within the final few percent of its total construction time.
+        Given this, it seems wise to focus more on the allocations and factors
+        that seem important in early stages of solar energy capture, and
+        <a href="https://forum.effectivealtruism.org/posts/XNMhYiA8GmJbBLHXg/which-questions-can-t-we-punt"
+           target="_blank" rel="noopener"
+           style="color:var(--accent)">punt</a>
+        those that are not into the future, provided the allocation chosen is
+        amendable.
+      </p>
+
+      <ol class="footnotes" style="font-size:0.85rem;color:var(--text-dim);margin-top:2rem;padding-left:1.5rem;max-width:60ch;">
+        <li id="fn-s5-1">
+          <a href="https://www.wikiwand.com/en/Statite" target="_blank"
+             rel="noopener" style="color:var(--accent)">Statites</a>
+          are spacecraft that use radiation pressure from sunlight to hold a
+          fixed position relative to the Sun without an orbit, potentially
+          eliminating collision risk and enabling arbitrary positioning.
+          <a href="#fnref-s5-1" style="color:var(--accent);text-decoration:none;">&uarr;</a>
+        </li>
+      </ol>
     </section>
     <!-- FEEDBACK -->
     <section id="feedback" style="border-top:1px solid var(--rule); margin-top:4rem; padding-top:2.5rem">
