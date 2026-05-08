@@ -1080,9 +1080,9 @@
       </div>
 
       <p>
-        While it is hard to predict what technologies will be developed, we can
+        While it is hard to predict how technologies develop over time, we can
         try to identify the factors that matter when choosing an allocation
-        framework. The more amendable a given framework is, the easier it can be updated over time
+        framework. The more amendable a given framework is, the easier it can be updated
         to reflect whichever factors are most salient given current conditions.
         You can find the full catalogue of currently identified factors with brief
         descriptions in the <a href="#appendix" style="color:var(--accent)">appendix</a>.
@@ -1094,40 +1094,63 @@
       <p>
         Solar power per unit area scales as 1/<em>r</em>&sup2;, so an orbit at
         0.1&nbsp;AU captures roughly 100 times more energy than one at
-        1&nbsp;AU &mdash; meaning frameworks counted in orbit number can be
+        1&nbsp;AU &mdash; meaning frameworks counted in captor number can be
         profoundly unequal in energy value. Screening compounds this: inner
         captors periodically shadow outer ones, creating structural pressure
-        toward the innermost feasible orbits and compounding the advantage of
-        early movers. Captor&ndash;Earth screening adds a further political
+        toward the innermost feasible orbits, or orbits that minimize screening. Captor&ndash;Earth screening adds a further political
         dimension: dense swarm populations transiting the Sun&ndash;Earth line
-        reduce solar irradiance at Earth, and at sufficient density this becomes
+        reduce the amount of sunlight reaching Earth, and at sufficient density this could become
         a measurable climate intervention well before full coverage is achieved.
       </p>
 
       <h3>Delta-v cost</h3>
       <p>
-        Delta-v is the currency of orbital mechanics. Of the dominant costs,
-        inclination change is by far the most expensive; changing &Omega; at a
-        fixed inclination costs almost nothing &mdash; achieved by waiting for
-        the right launch window rather than burning propellant, which is the
-        physical basis for the &Omega;-then-<em>i</em> allocation pattern in
-        section&nbsp;3. The governance implication is that actors manufacturing
-        captors in the inner solar system gain a structural cost advantage for
-        the most valuable orbits that compounds over time &mdash; a framework
-        that ignores this will concentrate access among actors with the best
-        existing infrastructure.
+        Delta-v is effectively the cost to reach and maintain any given orbit.
+        Unless you wait for specific launch windows, delta-v costs tend to
+        increase as captors orbit closer to the Sun or at higher inclinations.
+        While technology will likely improve over time and reduce delta-v for a
+        given orbit, reaching orbits close to the Sun and at high inclinations
+        can increase delta-v by roughly 1&ndash;2 orders of magnitude,
+        partially offsetting those technological gains.
+      </p>
+      <p>
+        As a result, the cheapest orbit to reach at any distance would be on
+        the ecliptic plane (0&deg; inclination), which will screen sunlight from
+        Earth at some point in its orbit. This is also why we may expect
+        near-ecliptic orbits to fill up quickly. However, a high concentration
+        of captors in these orbits produces a higher screening fraction,
+        reducing energy availability and creating an economic incentive for
+        actors to pay a higher delta-v cost to move to higher inclination
+        orbits.
+      </p>
+      <p>
+        A final consideration is that the order in which you execute orbital
+        manoeuvres matters. Say a captor launched from Earth needs to reach an
+        orbital radius of 0.05&nbsp;AU and an inclination of 10&deg;. Changing
+        inclination at Earth&rsquo;s orbital radius before spiralling inward is
+        about 30% cheaper than doing so after arriving at 0.05&nbsp;AU, because
+        higher orbital speeds at smaller radii make inclination changes more
+        costly. This raises the expected cost of amending an allocated orbit
+        &mdash; the closer to the Sun, the more expensive any inclination
+        adjustment becomes.
       </p>
 
       <h3>Actor interactions</h3>
       <p>
         Different allocation schemes create different inter-actor dynamics. An
-        allocation that assigns all true anomaly in a given orbit to one actor
-        makes it straightforward to preferentially damage that actor&rsquo;s
-        assets; mixing actors along the same orbital path raises the cost of
-        targeted interference, since any destructive action hurts everyone.
-        Interspersed orbits also enable easier monitoring of neighbouring actors
-        and could serve as a meaningful deterrent to aggressive unilateral
-        action.
+        allocation that assigns all 360&deg; of true anomaly in a given orbit
+        to one actor makes it easier to preferentially damage that
+        actor&rsquo;s assets. Mixing actors along the same orbital path raises
+        the cost of targeted interference, since destructive actions risk
+        friendly fire &mdash; debris from destroying one actor&rsquo;s captor
+        is liable to damage others&rsquo; nearby. This dynamic could serve as a
+        deterrent to aggressive unilateral action.
+      </p>
+      <p>
+        Interspersed orbits could also reduce the cost of monitoring
+        neighbouring actors and promote transparency. Depending on the
+        governance system in place, this monitoring could improve overall
+        transparency.
       </p>
     </section>
 
