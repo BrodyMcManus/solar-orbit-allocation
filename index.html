@@ -461,6 +461,42 @@
       color: var(--accent);
     }
 
+    /* ---------- Mobile ---------- */
+    @media (max-width: 600px) {
+      main {
+        padding: 2.5rem 1rem 4rem;
+      }
+
+      /* Reposition legend from top-left overlay to a compact bottom strip,
+         keeping the canvas clientHeight unchanged for the Three.js renderer */
+      .viz-legend {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        column-gap: 0.7rem;
+        row-gap: 0;
+        font-size: 0.58rem;
+        line-height: 1.9;
+        padding: 0.2rem 0.7rem;
+        background: rgba(5, 6, 10, 0.88);
+        border: none;
+        border-top: 1px solid var(--rule);
+      }
+
+      /* Hint is redundant on touch */
+      .viz-hint { display: none; }
+
+      /* Let controls stack naturally (already handled by minmax, but
+         ensure no overflow on very narrow screens) */
+      .controls-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* Footer */
     footer {
       border-top: 1px solid var(--rule);
